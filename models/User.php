@@ -2,7 +2,11 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+//class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+use yii\db\ActiveRecord;
+
+class User extends ActiveRecord
 {
     public $id;
     public $username;
@@ -10,6 +14,12 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $authKey;
     public $accessToken;
 
+    public static function tableName()
+    {
+        return 'users';
+    }
+
+/*
     private static $users = [
         '100' => [
             'id' => '100',
@@ -28,17 +38,11 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     ];
 
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentity($id)
     {
         return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         foreach (self::$users as $user) {
@@ -49,54 +53,71 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
 
         return null;
     }
+*/
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
+    public static function saveUser($data)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
+        $return = Yii::$app->db->createCommand()->insert(self::tableName(), [
+            'login' => $data->username,
+            'pwd' => $data->password,
+            'user_name' => $data->name,
+            'email' => $data->email,
+            'phone' => $data->phone,
+        ])->execute();
+    }
+
+    public static function findByUsernameOrEmailDb($username, $email)
+    {
+        $result = self::find()->asArray()
+            //->select("name, lft, rgt, lvl")
+            ->where(['login' => $username])
+            ->orWhere(['email' => $email])
+            //->addOrderBy('root, lft')
+            ->all();
+        //echo '<pre>'; var_dump($result); die;
+        return $result;
+    }
+
+    public static function findByUsernameAndPaswDb($username,$password)
+    {
+        $result = self::find()->asArray()
+            //->select("name, lft, rgt, lvl")
+            ->where(['login' => $username])
+            ->andWhere(['pwd' => $password])
+            //->addOrderBy('root, lft')
+            ->all();
+        //echo '<pre>'; var_dump($result); die;
+        return $result;
+    }
+
+    /*
+        public static function findByUsername($username)
+        {
+            foreach (self::$users as $user) {
+                if (strcasecmp($user['username'], $username) === 0) {
+                    return new static($user);
+                }
             }
+
+            return null;
         }
 
-        return null;
-    }
+        public function getId()
+        {
+            return $this->id;
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+        public function getAuthKey()
+        {
+            return $this->authKey;
+        }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
+    */
     public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
     }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
     public function validatePassword($password)
     {
         return $this->password === $password;

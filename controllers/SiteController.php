@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AuthorizForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -77,7 +78,8 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->render('index');
+            //return $this->goBack();
         }
         return $this->render('login', [
             'model' => $model,
@@ -101,6 +103,22 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
+
+    public function actionAuthoriz()
+    {
+        $model = new AuthorizForm();
+        if ($model->load(Yii::$app->request->post()) && $model->authoriz(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->render('index');
+            //return $this->refresh();
+        }
+
+        return $this->render('authoriz', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionContact()
     {
         $model = new ContactForm();

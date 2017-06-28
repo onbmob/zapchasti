@@ -11,9 +11,13 @@ $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
+    <h1>
+        <?= Html::encode($this->title) ?>
+        <?php if($model->error != ''){ ?>
+            -
+            <span style="color: red"><?=$model->error?></span>
+        <?php } ?>
+    </h1>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
