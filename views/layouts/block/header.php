@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
 
 NavBar::begin([
     'brandLabel' => 'Зпчасти от NIRAX',
@@ -15,6 +16,7 @@ echo Nav::widget([
         ['label' => 'Контакты', 'url' => ['/site/index']],
         ['label' => 'О компании', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Админка', 'url' => ['/admin']],
         ['label' => 'Регистрация', 'url' => ['/site/authoriz']],
         Yii::$app->user->isGuest ? (
         ['label' => 'Вход', 'url' => ['/site/login']]
