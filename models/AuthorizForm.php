@@ -59,15 +59,18 @@ class AuthorizForm extends Model
                 return false;
             }
 
+            $ori_pasw = $this->password;
             $this->password = md5($this->password);
             User::saveUser($this);
+            $mail = new MailModel();
+            $mail->sendRegistration($this,$ori_pasw);
 
-            Yii::$app->mailer->compose()
+           /* Yii::$app->mailer->compose()
                 ->setTo($email)
                 ->setFrom([$this->email => $this->name])
                 ->setSubject('REGISTRATION')
                 ->setTextBody('Регистрация прошла успешно')
-                ->send();
+                ->send();*/
 
             //echo 'Registration is ready';
             return true;
