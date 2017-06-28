@@ -15,10 +15,10 @@ class module extends \yii\base\Module
 //        if(!User::getInstance()->isAdmin()) {
 //            throw new NotFoundHttpException('Запрашиваемая страница не существует');
 //        }
-        $this->base = new BaseService();
+        /*$this->base = new BaseService();
         if ($_SESSION['role'] != 'admin') {
             header('Location:/');
             exit;
-        }
+        }*/
     }
 }

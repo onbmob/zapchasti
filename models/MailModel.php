@@ -79,7 +79,8 @@ class MailModel extends Model
         $adress = [];
         $adress[] = $user->email;
 
-        $informSubject = date('H:i:s', time()) . ' - NIRAX: База кроссов. Подтверждение регистрации.';
+        //$informSubject = date('H:i:s', time()) . ' - NIRAX: База кроссов. Подтверждение регистрации.';
+        $informSubject = date('H:i:s', time()) . ' -  База кроссов. Подтверждение регистрации.';
 
         $body = '<div>
                 <p>
