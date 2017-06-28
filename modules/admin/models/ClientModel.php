@@ -64,6 +64,7 @@ class ClientModel extends ActiveRecord
 
 //            ['email', 'string', 'max' => 150],
             ['email', 'email'],
+            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Такой E-mail уже существует.'],
 //            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Такой адрес уже существует.'],
 //            ['email', 'skipOnEmpty' => false],
 
@@ -131,18 +132,18 @@ class ClientModel extends ActiveRecord
             $mailmodel = new MailModel();
             $img = '';
             $str = 'Добрый день!<br><br>';
-            $str .= 'Ваша учетная запись ';
+            $str .= 'Ваша учетная запись ' . $this->login;
             if ($this->activity === 'y') {
-                $str .= 'активирована на сайте http://status-m.com.ua/, пожалуйста, войдите (нажать на иконку "корзина", выбрать "вход")<br>';
-                $str .= 'по следующим данным:<br>';
-                $str .= 'логин: ' . $this->login . '<br>пароль';
+                $str .= ' активирована на сайте http://zaphasti.nirax.ru/, пожалуйста, войдите по следующим данным :<br>';
+                $str .= 'логин: ' . $this->login . '<br>';
+                $str .= 'E-mail: ' . $this->email . '<br>пароль';
                 if ($this->pwdNew != '') {
                     $str .= ': ' . $this->pwdNew . '<br><br>';
-                    $str .= 'Рекомендуем после входа на сайт поменять пароль в "личном кабинете" (нажать на иконку "корзина", открыть страницу "личные данные")<br>';
+                    $str .= 'Рекомендуем после входа на сайт поменять пароль в "личном кабинете"<br>';
                 } else {
                     $str .= ', указанный Вами при регистрации.<br>';
                 }
-                $img = 'images/mail1.jpg';
+                $img = '';//'images/mail1.jpg';
             } else {
                 $str .= 'не активирована, свяжитесь с Вашим менеджером.';
             }
@@ -158,8 +159,7 @@ class ClientModel extends ActiveRecord
             $this->role = 'user';
         }
         if ($this->pwdNew != '') {
-            $salt = $this->createSalt($this->pwdNew);
-            $this->pwd = md5(md5($this->pwdNew) . $salt . md5($salt));
+            $this->pwd = md5($this->pwdNew);
             $this->pwdNew = '';
             $this->pwdRepeat = '';
         }
@@ -194,8 +194,7 @@ class ClientModel extends ActiveRecord
             $this->role = 'user';
         }
         if ($this->pwdNew != '') {
-            $salt = $this->createSalt($this->pwdNew);
-            $this->pwd = md5(md5($this->pwdNew) . $salt . md5($salt));
+            $this->pwd = md5($this->pwdNew);
             $this->pwdNew = '';
             $this->pwdRepeat = '';
         }

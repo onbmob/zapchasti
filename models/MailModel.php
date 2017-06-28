@@ -112,6 +112,13 @@ class MailModel extends Model
         $this->send();
     }
 
+    public function sendClientMail($adress,$title,$str,$img=''){
+        $this->param['body'] = $str;
+        $this->param['informEmail'] = $adress;
+        $this->param['informSubject'] = date('H:i:s',time()).$title;
+        $this->send($img);
+    }
+
     /*
         public function sendPrise($ProductPrice,$Comments){
             $model = new MailAdressModel();
@@ -182,13 +189,6 @@ class MailModel extends Model
             $this->param['informSubject'] = date('H:i:s',time()).' - Уведомление о добавлении отзыва на товар.';
             $this->send();
         }
-        public function sendClientMail($adress,$title,$str,$img=''){
-            $this->param['body'] = $str;
-            $this->param['informEmail'] = $adress;
-            $this->param['informSubject'] = date('H:i:s',time()).$title;
-            $this->send($img);
-        }
-
         public function getOpponentMail(){
             $model = new MailAdressModel();
             $result = $model->getForGroup('opponetLog');

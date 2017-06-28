@@ -18,6 +18,7 @@ echo Nav::widget([
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Админка', 'url' => ['/admin']],
         ['label' => 'Регистрация', 'url' => ['/site/authoriz']],
+        ['label' => 'Выход', 'url' => ['/site/logout']],
         Yii::$app->user->isGuest ? (
         ['label' => 'Вход', 'url' => ['/site/login']]
         ) : (

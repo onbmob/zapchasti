@@ -22,13 +22,21 @@ class AuthorizForm extends Model
     /**
      * @return array the validation rules.
      */
+
+    public static function tableName()
+    {
+        return 'users';
+    }
+
     public function rules()
     {
         return [
             // name, email, subject and body are required
             [['username', 'password', 'name', 'email', 'phone', 'body'], 'required'],
+            ['username', 'unique', 'targetClass' => self::className(), 'message' => 'Такой логин уже существует.'],
             // email has to be a valid email address
             ['email', 'email'],
+            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Такой E-mail уже существует.'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
@@ -41,6 +49,11 @@ class AuthorizForm extends Model
     {
         return [
             'verifyCode' => 'Verification Code',
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'name' => 'ФИО пользователя',
+            'email' => 'Почта',
+            'phone' => 'Телефон ',
         ];
     }
 

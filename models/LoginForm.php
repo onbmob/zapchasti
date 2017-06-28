@@ -24,6 +24,14 @@ class LoginForm extends Model
     /**
      * @return array the validation rules.
      */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'password' => 'Пароль',
+        ];
+    }
+
     public function rules()
     {
         return [

@@ -63,6 +63,7 @@ class User extends ActiveRecord
             'user_name' => $data->name,
             'email' => $data->email,
             'phone' => $data->phone,
+            'role' => 'user',
             'activity' => 'n',
         ])->execute();
     }
@@ -114,7 +115,6 @@ class User extends ActiveRecord
             return $this->authKey;
         }
 
-    */
     public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
@@ -124,4 +124,7 @@ class User extends ActiveRecord
     {
         return $this->password === $password;
     }
+
+*/
+
 }
