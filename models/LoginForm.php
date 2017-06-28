@@ -77,8 +77,13 @@ class LoginForm extends Model
         if ($this->_user === false) {
             $password = md5($this->password);
             $this->_user = User::findByUsernameAndPaswDb($this->username, $password);
-            if(count($this->_user) > 0) return true;
-            else {
+            if(count($this->_user) > 0) {
+                if($this->_user[0]['activity'] != 'y'){
+                    $this->error = 'учетная запись не активна';
+                    return false;
+                } else return $this->_user;
+                //return true;
+            } else {
                 $this->error = 'неверный логин или пароль';
                 return false;
             }

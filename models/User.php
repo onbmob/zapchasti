@@ -63,6 +63,7 @@ class User extends ActiveRecord
             'user_name' => $data->name,
             'email' => $data->email,
             'phone' => $data->phone,
+            'activity' => 'n',
         ])->execute();
     }
 
@@ -84,6 +85,7 @@ class User extends ActiveRecord
             //->select("name, lft, rgt, lvl")
             ->where(['login' => $username])
             ->andWhere(['pwd' => $password])
+            //->andWhere(['activity' => 'y'])
             //->addOrderBy('root, lft')
             ->all();
         //echo '<pre>'; var_dump($result); die;

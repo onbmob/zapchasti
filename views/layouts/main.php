@@ -27,23 +27,20 @@ AppAsset::register($this);
 
 <div class="wrap">
 
-    <?= $this->render('block/header'); ?>
+    <?= $this->render('block/header.php'); ?>
 
+    <!------------------------------------------------->
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= $content ?>
     </div>
+    <!------------------------------------------------->
+
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+<?= $this->render('block/footer.php'); ?>
 
 <?php $this->endBody() ?>
 </body>
