@@ -103,7 +103,7 @@ $this->beginPage();
 </div>
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Status-M <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Nirax <?= date('Y') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

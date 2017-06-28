@@ -61,8 +61,6 @@ use yii\helpers\FileHelper;
  * that contains the entry script of the application. If your theme is designed to handle modules,
  * you may configure the [[pathMap]] property like described above.
  *
- * For more details and usage information on Theme, see the [guide article on theming](guide:output-theming).
- *
  * @property string $basePath The root path of this theme. All resources of this theme are located under this
  * directory.
  * @property string $baseUrl The base URL (without ending slash) for this theme. All resources of this theme
@@ -76,7 +74,7 @@ class Theme extends Component
     /**
      * @var array the mapping between view directories and their corresponding themed versions.
      * This property is used by [[applyTo()]] when a view is trying to apply the theme.
-     * [Path aliases](guide:concept-aliases) can be used when specifying directories.
+     * Path aliases can be used when specifying directories.
      * If this property is empty or not set, a mapping [[Application::basePath]] to [[basePath]] will be used.
      */
     public $pathMap;
@@ -94,7 +92,7 @@ class Theme extends Component
     }
 
     /**
-     * @param string $url the base URL or [path alias](guide:concept-aliases) for this theme. All resources of this theme are considered
+     * @param string $url the base URL or path alias for this theme. All resources of this theme are considered
      * to be under this base URL.
      */
     public function setBaseUrl($url)
@@ -114,7 +112,7 @@ class Theme extends Component
     }
 
     /**
-     * @param string $path the root path or [path alias](guide:concept-aliases) of this theme. All resources of this theme are located
+     * @param string $path the root path or path alias of this theme. All resources of this theme are located
      * under this directory.
      * @see pathMap
      */

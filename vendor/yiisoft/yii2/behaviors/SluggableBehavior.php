@@ -9,7 +9,6 @@ namespace yii\behaviors;
 
 use yii\base\InvalidConfigException;
 use yii\db\BaseActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\validators\UniqueValidator;
 use Yii;
@@ -65,14 +64,12 @@ class SluggableBehavior extends AttributeBehavior
      */
     public $slugAttribute = 'slug';
     /**
-     * @var string|array|null the attribute or list of attributes whose value will be converted into a slug
-     * or `null` meaning that the `$value` property will be used to generate a slug.
+     * @var string|array the attribute or list of attributes whose value will be converted into a slug
      */
     public $attribute;
     /**
-     * @var callable|string|null the value that will be used as a slug. This can be an anonymous function
-     * or an arbitrary value or null. If the former, the return value of the function will be used as a slug.
-     * If `null` then the `$attribute` property will be used to generate a slug.
+     * @var string|callable the value that will be used as a slug. This can be an anonymous function
+     * or an arbitrary value. If the former, the return value of the function will be used as a slug.
      * The signature of the function should be as follows,
      *
      * ```php
@@ -84,13 +81,13 @@ class SluggableBehavior extends AttributeBehavior
      */
     public $value;
     /**
-     * @var bool whether to generate a new slug if it has already been generated before.
+     * @var boolean whether to generate a new slug if it has already been generated before.
      * If true, the behavior will not generate a new slug even if [[attribute]] is changed.
      * @since 2.0.2
      */
     public $immutable = false;
     /**
-     * @var bool whether to ensure generated slug value to be unique among owner class records.
+     * @var boolean whether to ensure generated slug value to be unique among owner class records.
      * If enabled behavior will validate slug uniqueness automatically. If validation fails it will attempt
      * generating unique slug value from based one until success.
      */
@@ -138,17 +135,17 @@ class SluggableBehavior extends AttributeBehavior
      */
     protected function getValue($event)
     {
-        if (!$this->isNewSlugNeeded()) {
-            return $this->owner->{$this->slugAttribute};
-        }
-
         if ($this->attribute !== null) {
-            $slugParts = [];
-            foreach ((array) $this->attribute as $attribute) {
-                $slugParts[] = ArrayHelper::getValue($this->owner, $attribute);
-            }
+            if ($this->isNewSlugNeeded()) {
+                $slugParts = [];
+                foreach ((array) $this->attribute as $attribute) {
+                    $slugParts[] = $this->owner->{$attribute};
+                }
 
-            $slug = $this->generateSlug($slugParts);
+                $slug = $this->generateSlug($slugParts);
+            } else {
+                return $this->owner->{$this->slugAttribute};
+            }
         } else {
             $slug = parent::getValue($event);
         }
@@ -160,7 +157,7 @@ class SluggableBehavior extends AttributeBehavior
      * Checks whether the new slug generation is needed
      * This method is called by [[getValue]] to check whether the new slug generation is needed.
      * You may override it to customize checking.
-     * @return bool
+     * @return boolean
      * @since 2.0.7
      */
     protected function isNewSlugNeeded()
@@ -171,10 +168,6 @@ class SluggableBehavior extends AttributeBehavior
 
         if ($this->immutable) {
             return false;
-        }
-
-        if ($this->attribute === null) {
-            return true;
         }
 
         foreach ((array)$this->attribute as $attribute) {
@@ -222,7 +215,7 @@ class SluggableBehavior extends AttributeBehavior
     /**
      * Checks if given slug value is unique.
      * @param string $slug slug value
-     * @return bool whether slug is unique.
+     * @return boolean whether slug is unique.
      */
     protected function validateSlug($slug)
     {
@@ -246,7 +239,7 @@ class SluggableBehavior extends AttributeBehavior
     /**
      * Generates slug using configured callback or increment of iteration.
      * @param string $baseSlug base slug value
-     * @param int $iteration iteration number
+     * @param integer $iteration iteration number
      * @return string new slug value
      * @throws \yii\base\InvalidConfigException
      */
