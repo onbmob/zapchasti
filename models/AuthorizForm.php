@@ -12,6 +12,7 @@ class AuthorizForm extends Model
 {
     public $username;
     public $password;
+    public $password1;
     public $name;
     public $email;
     public $phone;
@@ -32,11 +33,12 @@ class AuthorizForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['username', 'password', 'name', 'email', 'phone', 'body'], 'required'],
-            ['username', 'unique', 'targetClass' => self::className(), 'message' => 'Такой логин уже существует.'],
+            [['username', 'password', 'password1', 'name', 'email', 'phone', 'body'], 'required'],
+            ['password1', 'compare', 'skipOnEmpty' => false, 'compareAttribute' => 'password'],
+            //['username', 'unique', 'targetClass' => self::className(), 'message' => 'Такой логин уже существует.'],
             // email has to be a valid email address
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => self::className(), 'message' => 'Такой E-mail уже существует.'],
+            //['email', 'unique', 'targetClass' => self::className(), 'message' => 'Такой E-mail уже существует.'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
@@ -51,6 +53,7 @@ class AuthorizForm extends Model
             'verifyCode' => 'Verification Code',
             'username' => 'Логин',
             'password' => 'Пароль',
+            'password1' => 'Повторите пароль',
             'name' => 'ФИО пользователя',
             'email' => 'Почта',
             'phone' => 'Телефон ',
@@ -66,9 +69,17 @@ class AuthorizForm extends Model
     {
         //if ($this->validate()) {
             $res = User::findByUsernameOrEmailDb($this->username, $this->email);
+            //echo '<pre>'; var_dump($res); die;
             if(count($res) > 0 ) {
-                //echo 'LOGIN - '.$this->username.'<pre>'; var_dump($res);
-                $this->error = 'уже есть такой логин или E-mail';
+                $this->error = 'уже есть такой ';
+                if($res[0]['login'] == $this->username) {
+                    $this->error .= 'Логин';
+                    $this->addError('username', 'Уже есть такой логин');
+                }
+                if($res[0]['email'] == $this->email) {
+                    $this->error .= ' E-mail';
+                    $this->addError('email', 'Уже есть такой E-mail');
+                }
                 return false;
             }
 
@@ -78,14 +89,6 @@ class AuthorizForm extends Model
             $mail = new MailModel();
             $mail->sendRegistration($this,$ori_pasw);
 
-           /* Yii::$app->mailer->compose()
-                ->setTo($email)
-                ->setFrom([$this->email => $this->name])
-                ->setSubject('REGISTRATION')
-                ->setTextBody('Регистрация прошла успешно')
-                ->send();*/
-
-            //echo 'Registration is ready';
             return true;
         //}
 
