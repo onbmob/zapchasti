@@ -44,7 +44,7 @@ class LoginForm extends Model
         ];
     }
 
-/*
+
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
@@ -55,7 +55,7 @@ class LoginForm extends Model
             }
         }
     }
-*/
+
 
     public function login()
     {
@@ -75,7 +75,7 @@ class LoginForm extends Model
     {
         if ($this->_user === false) {
             $password = md5($this->password);
-            $this->_user = User::findByUsernameAndPaswDb($this->username, $password);
+            $this->_user = User::findByUsernameAndPaswDb($this, $password);
             if(count($this->_user) > 0) {
                 if($this->_user[0]['activity'] != 'y'){
                     $this->error = 'учетная запись не активна';

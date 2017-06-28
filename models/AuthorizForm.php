@@ -65,7 +65,7 @@ class AuthorizForm extends Model
      * @param string $email the target email address
      * @return bool whether the model passes validation
      */
-    public function authoriz($email)
+    public function authoriz()
     {
         //if ($this->validate()) {
             $res = User::findByUsernameOrEmailDb($this->username, $this->email);
@@ -92,6 +92,6 @@ class AuthorizForm extends Model
             return true;
         //}
 
-        return false;
+        //return false;
     }
 }

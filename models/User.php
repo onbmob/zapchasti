@@ -80,11 +80,12 @@ class User extends ActiveRecord
         return $result;
     }
 
-    public static function findByUsernameAndPaswDb($username,$password)
+    public static function findByUsernameAndPaswDb($user,$password)
     {
         $result = self::find()->asArray()
             //->select("name, lft, rgt, lvl")
-            ->where(['login' => $username])
+            ->where(['login' => $user->username])
+            ->orWhere(['email' => $user->username])
             ->andWhere(['pwd' => $password])
             //->andWhere(['activity' => 'y'])
             //->addOrderBy('root, lft')
