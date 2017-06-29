@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\AuthorizForm;
+use app\models\BaseService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -16,6 +17,13 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+    public $base;
+
+    public function init(){
+        parent::init();
+        $this->base = new BaseService();
+    }
+/*
     public function behaviors()
     {
         return [
@@ -38,7 +46,7 @@ class SiteController extends Controller
             ],
         ];
     }
-
+*/
     /**
      * @inheritdoc
      */
@@ -62,7 +70,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index',[
+            'session' => $this->base
+        ]);
     }
 
     /**
@@ -93,9 +103,18 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
 
-        return $this->goHome();
+//echo '<pre>'; var_dump($_SESSION); die;
+        Yii::$app->session->destroy();
+        Yii::$app->session->open();
+        $base = new BaseService;
+        $base->setParNewSession();
+
+        //Yii::$app->user->logout();
+        //return $this->goHome();
+        return $this->render('index',[
+            'session' => $this->base
+        ]);
     }
 
     /**

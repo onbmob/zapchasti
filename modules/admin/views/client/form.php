@@ -14,8 +14,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'role')->dropDownList(['user'=>'Пользователь','admin'=>'Администратор']) ?>
     <?= $form->field($model, 'activity')->dropDownList(['y'=>'Да','n'=>'Нет']) ?>
-    <?= $form->field($model, 'columns')->textInput(['maxlength' => true])  ?>
-    <?= $form->field($model, 'hide_art')->checkbox()  ?>
+    <?/*= $form->field($model, 'columns')->textInput(['maxlength' => true])  */?><!--
+    --><?/*= $form->field($model, 'hide_art')->checkbox()  */?>
     <?= $form->field($model, 'pwdNew')->passwordInput(); ?>
     <?= $form->field($model, 'pwdRepeat')->passwordInput(['maxlength' => true]); ?>
 <!--    <br>

@@ -18,18 +18,10 @@ echo Nav::widget([
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Админка', 'url' => ['/admin']],
         ['label' => 'Регистрация', 'url' => ['/site/authoriz']],
-        ['label' => 'Выход', 'url' => ['/site/logout']],
-        Yii::$app->user->isGuest ? (
+        ($_SESSION['role'] == 'unreg') ? (
         ['label' => 'Вход', 'url' => ['/site/login']]
         ) : (
-            '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Выход (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>'
+        ['label' => 'Выход', 'url' => ['/site/logout']]
         )
     ],
 ]);

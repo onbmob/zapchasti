@@ -34,6 +34,8 @@ class AuthorizForm extends Model
         return [
             // name, email, subject and body are required
             [['username', 'password', 'password1', 'name', 'email', 'phone', 'body'], 'required'],
+            ['username', 'string', 'max' => 50, 'min' => 4],
+            ['password', 'string', 'max' => 50, 'min' => 4],
             ['password1', 'compare', 'skipOnEmpty' => false, 'compareAttribute' => 'password'],
             //['username', 'unique', 'targetClass' => self::className(), 'message' => 'Такой логин уже существует.'],
             // email has to be a valid email address

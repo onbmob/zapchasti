@@ -80,7 +80,21 @@ class LoginForm extends Model
                 if($this->_user[0]['activity'] != 'y'){
                     $this->error = 'учетная запись не активна';
                     return false;
-                } else return $this->_user;
+                } else {//Вошли
+                    //-----------------
+                    Yii::$app->session->destroy();
+                    Yii::$app->session->open();
+                    $base = new BaseService;
+                    $base->setParNewSession();
+                    //-----------------
+                    $_SESSION['login'] = $this->_user[0]['login'];
+                    $_SESSION['userId'] = (int)$this->_user[0]['id'];
+                    $_SESSION['role'] = $this->_user[0]['role'];
+                    $_SESSION['userCode'] = $this->_user[0]['user_code'];
+                    $_SESSION['userName'] = $this->_user[0]['user_name'];
+                    $_SESSION['email'] = $this->_user[0]['email'];
+                    return $this->_user;
+                }
                 //return true;
             } else {
                 $this->error = 'неверный логин или пароль';
@@ -88,6 +102,6 @@ class LoginForm extends Model
             }
         }
 
-        return $this->_user;
+       // return $this->_user;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+/*
     '' => 'authorized/index',
     'exit' => 'authorized/exit',
     'index' => 'authorized/index',
@@ -29,12 +29,6 @@ return [
     '/stpage/<link:[\s\w-.=,()]+>' => '/pages/default/display-static-page',
 
 
-//    '/acat/legkovye_avtomobili' => 'acat/default/index',
-//    '/acat/legkovye_avtomobili/<mark:[\s\w\d-_]+>' => '/acat/default/models',
-//    '/acat/legkovye_avtomobili/<mark:[\s\w\d-_]+>/<model:[\s\w-.=,()]+>' => '/acat/default/tree',
-//    '/acat/legkovye_avtomobili/<mark:[\s\w\d-_]+>/<model:[\s\w-.=,()]+>/<group:[\s\w-.=,()]+>' => '/acat/default/items',
-
-
     '/acat/1' => 'acat/default/index',
     '/acat/1/<mark_id:[\d]+>' => '/acat/default/models',
     '/acat/1/<mark_id:[\d]+>/<model_id:[\d]+>' => '/acat/default/tree',
@@ -49,7 +43,5 @@ return [
 
 
     '/detailcard/<Brand:[^/]+>/<Code:[^/]+>/<Sours:[^/]+>/<Name:[^/]+>' => '/catalog/default/detail',
-
-
-
+*/
 ];

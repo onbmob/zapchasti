@@ -47,7 +47,7 @@ class ClientModel extends ActiveRecord
 
             ['id', 'integer'],
 
-            ['columns', 'integer'],
+            //['columns', 'integer'],
 
             ['pwdNew', 'string', 'max' => 50, 'min' => 4],
             ['pwdRepeat', 'compare', 'skipOnEmpty' => false, 'compareAttribute' => 'pwdNew'],
@@ -86,7 +86,7 @@ class ClientModel extends ActiveRecord
 
             ['chmail', 'integer'],
 
-            ['hide_art', 'integer'],
+            //['hide_art', 'integer'],
 
 //            [['images'], 'file', 'extensions' => ['png']],
 
@@ -111,14 +111,14 @@ class ClientModel extends ActiveRecord
             'phone' => 'Телефон пользователя',
             'activity' => 'Активность (y/n)',
             'activate_hash' => 'Хеш активации',
-            'columns' => 'Карточек на странице',
+            //'columns' => 'Карточек на странице',
             'service' => 'service',
             'town' => 'Код города',
             'courier_base' => 'Код отделения',
             'receiver_name' => 'Имя получателя',
             'receiver_phone' => 'Телефон получателя',
             'chmail' => 'Уведомить пользователя письмом',
-            'hide_art' => 'Скрывать артикул',
+            //'hide_art' => 'Скрывать артикул',
         ];
     }
 

@@ -25,7 +25,7 @@ class ClientSearch extends ClientModel
     {
         return [
             ['id', 'integer'],
-            ['columns', 'integer'],
+            //['columns', 'integer'],
             ['login', 'safe'],
             ['role', 'safe'],
             ['user_code', 'safe'],
@@ -39,7 +39,7 @@ class ClientSearch extends ClientModel
             ['courier_base', 'safe'],
             ['receiver_name', 'safe'],
             ['receiver_phone', 'safe'],
-            ['hide_art', 'safe'],
+            //['hide_art', 'safe'],
         ];
     }
 
@@ -73,7 +73,7 @@ class ClientSearch extends ClientModel
         }
         $query
             ->andFilterWhere(['like', 'id', $this->id])
-            ->andFilterWhere(['like', 'columns', $this->columns])
+            //->andFilterWhere(['like', 'columns', $this->columns])
             ->andFilterWhere(['like', 'login', $this->login])
             ->andFilterWhere(['like', 'role', $this->role])
             ->andFilterWhere(['like', 'user_code', $this->user_code])
@@ -85,7 +85,7 @@ class ClientSearch extends ClientModel
             ->andFilterWhere(['like', 'courier_base', $this->courier_base])
             ->andFilterWhere(['like', 'receiver_name', $this->receiver_name])
             ->andFilterWhere(['like', 'receiver_phone', $this->receiver_phone])
-            ->andFilterWhere(['like', 'hide_art', $this->hide_art])
+            //->andFilterWhere(['like', 'hide_art', $this->hide_art])
             ->andFilterWhere(['like', 'user_name', $this->user_name]);
         return $dataProvider;
     }

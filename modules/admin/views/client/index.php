@@ -32,8 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'email',
 //            'pwd',
 //            'a',
-            'columns',
-            'hide_art',
+            //'columns',
+            //'hide_art',
 //            ['label' => 'Связь', 'format' => 'raw',
 //                'value' => function($model){
 //                    $result = $model->getIp();
