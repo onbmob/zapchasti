@@ -1,7 +1,7 @@
 <?php
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\helpers\Html;
+//use yii\helpers\Html;
 
 NavBar::begin([
     'brandLabel' => 'Зпчасти от NIRAX',
@@ -21,8 +21,14 @@ if (($_SESSION['role'] == 'admin')) {
     $tmpItem [] = ['label' => 'Админка', 'url' => ['/admin']];
 }
 if (($_SESSION['role'] == 'unreg')) {
-    $tmpItem [] = ['label' => 'Регистрация', 'url' => ['/site/authoriz']];
-    $tmpItem [] = ['label' => 'Вход', 'url' => ['/site/login']];
+    $tmpItem [] = [
+        'label' => 'Вход',
+        'url' => ['#'],
+        'items' => [
+            ['label' => 'Регистрация', 'url' => ['/site/authoriz']],
+            ['label' => 'Вход', 'url' => ['/site/login'],
+            ],
+        ]];
 } else {
     $tmpItem [] = ['label' => 'Выход', 'url' => ['/site/logout']];
 }
