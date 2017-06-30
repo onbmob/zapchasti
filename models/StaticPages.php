@@ -62,13 +62,13 @@ class StaticPages extends \yii\db\ActiveRecord {
     {
         $pages = false;//Yii::$app->cache->get('MenuStatPages');
         if( $pages === false ) {
-            $pages = self::find()->select(['id', 'title'])
+            $pages = self::find()->select(['id', 'Title'])
                 //->orderBy('page_title')
                 ->all();
 
             if($pages != null){
                 foreach($pages as &$item){
-                    //$item['title'] = $item['title'].' #'.$item['parent'];
+                    //$item['Title'] = $item['Title'].' #'.$item['Title'];
                 }
             }
             Yii::$app->cache->set('MenuStatPages', $pages, 60*60);

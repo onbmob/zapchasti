@@ -11,6 +11,7 @@ $this->title = 'Меню на главной';
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJs('initKartikMenu()'); //вызов ф-ции
+
 ?>
 <div class="popular-category-index">
     <?php
@@ -47,7 +48,7 @@ $this->registerJs('initKartikMenu()'); //вызов ф-ции
         'showCheckbox' => false, // показывать чекбокс возле элемента
         'multiple' => false, // множественный выбор элементов
         'showInactive' => true, // показывать неактивные элементы
-        'treeOptions' =>['style' => 'height:800px'],
+        'treeOptions' =>['style' => 'height:700px'],
 //        'headerOptions' =>['style' => 'width:400px'],
 //        'detailOptions' =>['style' => 'width:510px']
         'softDelete' => false, // defaults to true

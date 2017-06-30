@@ -1,5 +1,7 @@
 $(document).ready(function(){
+
 });
+
 var loadFile = function(event,idoutput) {
     var reader = new FileReader();
     reader.onload = function(){
@@ -10,8 +12,10 @@ var loadFile = function(event,idoutput) {
 };
 
 function initKartikMenu(){
+
     var kartik_stat_page = $('#categorysearchmodel-page_id');
     //kartik_stat_page.select2();
+
     kartik_stat_page.change(function(){
        /* var par = kartik_stat_page.find('option:selected').text().split('#');
         var parent = 0;
