@@ -31,6 +31,7 @@ class MailModel extends Model
         parent::init();
         $this->mailer = new Mailer();
         $this->mailer->transport = $this->main_par = MailSettingModel::getSetting();
+        //echo '<pre>'; var_dump($this->mailer->transport); die;
         //$this->mailer->transport = MailSettingModel::getSetting();
     }
 

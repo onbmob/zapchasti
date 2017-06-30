@@ -13,7 +13,7 @@ class CategorySearchModel extends Tree
      */
     public static function tableName()
     {
-        return 'category_search';
+        return 'menu_stat_pages';
     }
 
     /**
@@ -32,8 +32,9 @@ class CategorySearchModel extends Tree
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = ['key_phrase', 'safe'];
+        $rules[] = ['parent', 'safe'];
         $rules[] = ['title', 'safe'];
+        $rules[] = ['page_id', 'safe'];
         return $rules;
     }
     /**
@@ -42,13 +43,14 @@ class CategorySearchModel extends Tree
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
-        $attributeLabels['key_phrase'] = 'Фраза для поиска';
+        $attributeLabels['parent'] = 'Родитель';
+        $attributeLabels['page_id'] = 'Статическая страница';
         return $attributeLabels;
     }
 
     public function get(){
 
-        $sql = "SELECT lft, rgt, lvl, name, key_phrase FROM ".$this->tableName()."
+        $sql = "SELECT * key_phrase FROM ".$this->tableName()."
                 WHERE lvl > 0 AND  active = true;";
 
         $return = Yii::$app->db->createCommand($sql)->queryAll();
@@ -61,9 +63,9 @@ class CategorySearchModel extends Tree
             ->all();
         return $result;*/
     }
-    public function getLft($lft,$rgt, $lvl){
+    public function getLft($lft,$rgt, $lvl, $root){
 
-        $sql = "SELECT lft, rgt, lvl, name, key_phrase FROM ".$this->tableName()."
+        /*$sql = "SELECT * FROM ".$this->tableName()."
                 WHERE lvl = '" . $lvl . "'
                 AND  active = true
                 AND  lft > '" . $lft . "'
@@ -71,34 +73,35 @@ class CategorySearchModel extends Tree
                 ;";
 
         $return = Yii::$app->db->createCommand($sql)->queryAll();
-        return $return;
+        return $return;*/
 
-        /*$result = self::find()
+        $result = self::find()->asArray()
             //->select("name, lft, rgt, lvl")
-            ->where("lvl > 0")
+            ->where(['lvl' => $lvl])
+            ->andWhere(['root' => $root])
             ->andWhere(['active'=>true])
             ->andWhere('lft > :a', ['a' => $lft])
             ->andWhere('lft < :b', ['b' => $rgt])
-            ->addOrderBy('root, lft')
+            //->addOrderBy('root, lft')
             ->all();
-        return $result;*/
+        return $result;
     }
 
     public function getlvl($lvl){
 
-        $sql = "SELECT lft, rgt, lvl, name, key_phrase FROM ".$this->tableName()."
+        /*$sql = "SELECT * FROM ".$this->tableName()."
                 WHERE lvl = '" . $lvl . "' AND  active = true;";
 
         $return = Yii::$app->db->createCommand($sql)->queryAll();
-        return $return;
+        return $return;*/
 
-        /*$result = self::find()
+        $result = self::find()->asArray()
             //->select("name, lft, rgt, lvl")
-            ->where("lvl = 1")
+            ->where(['lvl' => $lvl])
             ->andWhere(['active'=>true])
-            ->addOrderBy('root, lft')
+            //->addOrderBy('root, lft')
             ->all();
-        return $result;*/
+        return $result;
     }
 
     public function getID($id){

@@ -30,6 +30,9 @@ use yii\web\View;
  * @var bool       $showFormButtons
  * @var string     $nodeSelected
  */
+
+$this->registerJs('initKartikMenu()'); //вызов ф-ции
+
 ?>
 
 <?php

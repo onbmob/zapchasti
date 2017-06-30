@@ -1,37 +1,4 @@
 $(document).ready(function(){
-/*
-    $( "#bcbutton" ).click(function() {
-        var t=$('.carousel-inner').find('.active').find('img').prop('src');
-        $('#bannermodel-file_path').val(t.substring(t.lastIndexOf('/')+1,t.length));
-        $('#quicksearchmodel-img').val(t.substring(t.lastIndexOf('/')+1,t.length));
-    });
-    $( "#bcbutton2" ).click(function() {
-        var t=$('.carousel-inner').find('.active').find('img').prop('src');
-        $('#quicksearchmodel-img_tile').val(t.substring(t.lastIndexOf('/')+1,t.length));
-    });
-     // showConsoleLog(onbmodif);
-
-    var t= $("#w1");
-    var s= '';
-    var tt;
-    var f= $('#bannermodel-file_path').val();
-    if (f!=undefined) {
-        showConsoleLog('f=' + f);
-        for (var i = 0; i < 50; i++) {
-            tt = t.find('.active').find('img').prop('src');
-            s = tt.substring(tt.lastIndexOf('/') + 1, tt.length);
-            if (s == f) break;
-            t.carousel('next');
-            showConsoleLog('s=' + s);
-        }
-        // !!!Проядок не менять - перекрутит
-        t.on('slid.bs.carousel', function () {
-            var t = $('.carousel-inner').find('.active').find('img').prop('src');
-            $('#bannermodel-file_path').val(t.substring(t.lastIndexOf('/') + 1, t.length));
-        });
-
-    }
-*/
 });
 var loadFile = function(event,idoutput) {
     var reader = new FileReader();
@@ -41,3 +8,21 @@ var loadFile = function(event,idoutput) {
     };
     reader.readAsDataURL(event.target.files[0]);
 };
+
+function initKartikMenu(){
+    var kartik_stat_page = $('#categorysearchmodel-page_id');
+    //kartik_stat_page.select2();
+    kartik_stat_page.change(function(){
+       /* var par = kartik_stat_page.find('option:selected').text().split('#');
+        var parent = 0;
+        if(par[1] !== undefined) parent = par[1];
+        $('#categorysearchmodel-parent').val(parent);
+        $('#categorysearchmodel-name').val(par[0]);*/
+
+        var par = kartik_stat_page.find('option:selected').text();
+        $('#categorysearchmodel-name').val(par);
+
+    });
+
+}
+

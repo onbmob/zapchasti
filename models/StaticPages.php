@@ -57,4 +57,23 @@ class StaticPages extends \yii\db\ActiveRecord {
             'position' => 'Позиция',
         ];
     }
+
+    public static function getAllPages()
+    {
+        $pages = false;//Yii::$app->cache->get('MenuStatPages');
+        if( $pages === false ) {
+            $pages = self::find()->select(['id', 'title'])
+                //->orderBy('page_title')
+                ->all();
+
+            if($pages != null){
+                foreach($pages as &$item){
+                    //$item['title'] = $item['title'].' #'.$item['parent'];
+                }
+            }
+            Yii::$app->cache->set('MenuStatPages', $pages, 60*60);
+        }
+        return $pages;
+    }
+
 }

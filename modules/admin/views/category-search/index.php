@@ -7,8 +7,10 @@ use kartik\tree\TreeView;
  * @var $dataProviderModel yii\data\ActiveDataProvider;
  */
 
-$this->title = 'Просмотр категорий';
+$this->title = 'Меню на главной';
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJs('initKartikMenu()'); //вызов ф-ции
 ?>
 <div class="popular-category-index">
     <?php
@@ -19,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         // query fetching only active tree nodes ordered
 //        'query' => CategoryModel:: find()->andWhere(['active'=>true])->addOrderBy('root, lft'),
 
-        'headingOptions' => ['label' => 'Категории'], // Титл, если не задать - не показывается
-        'rootOptions' => ['label'=>'<span class="text-primary">Root</span>'], // название корневого элемента - если нет - "Корень"
+        'headingOptions' => ['label' => 'Меню'], // Титл, если не задать - не показывается
+        'rootOptions' => ['label'=>'<span class="text-primary">Меню на главной</span>'], // название корневого элемента - если нет - "Корень"
 //        'fontAwesome' => false,
         'isAdmin' => true,  // показать настройки администратора и сохранить, обновить
 //        'displayValue' => 1, // ID, элемента выводимого при инициализации
