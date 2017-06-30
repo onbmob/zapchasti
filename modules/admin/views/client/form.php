@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?= Html::resetButton('Сбросить',['class' => 'btn btn-default']) ?>
-        <?= Html::a('Выход', 'index',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Выход', 'index.php?r=admin',['class' => 'btn btn-success']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>

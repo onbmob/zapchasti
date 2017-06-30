@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $model->user_name;
     <h1><?= Html::encode($model->user_name) ?></h1>
 
     <p>
-        <?= Html::a('Выход', 'index',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Выход', 'index.php?r=admin',['class' => 'btn btn-success']); ?>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',

@@ -36,7 +36,7 @@ use vova07\imperavi\Widget;
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-success']) ?>
-        <?= Html::a('Выйти без сохранения', 'index',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Выйти без сохранения', 'index.php?r=admin',['class' => 'btn btn-success']); ?>
     </div>
 
 
