@@ -76,11 +76,11 @@ class ClientController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if($model->validate()) {
-                $model->images = UploadedFile::getInstance($model, 'images');
+                /*$model->images = UploadedFile::getInstance($model, 'images');
                 if ($model->images) {
                     $image_name = 'images/avatars/' . $model->id. '.png';
                     $model->images->saveAs($image_name);
-                }
+                }*/
             }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

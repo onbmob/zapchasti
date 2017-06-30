@@ -36,58 +36,23 @@ $this->beginPage();
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Пользователи', 'url' => ['/admin/client']],
-            ['label' => 'Оповещение', 'url' => ['/admin/alarm']],
             [
                 'label' => 'Настройки сайта',
                 'url' => ['#'],
                 'items' => [
-                    ['label' => 'Баннеры', 'url' => ['/admin/banner']],
-                    ['label' => 'Разделы', 'url' => ['/admin/quick-search']],
-                    ['label' => 'Категории', 'url' => ['/admin/category']],
                     ['label' => 'Статические страницы', 'url' => ['/admin/pages-manager']],
-                    //['label' => 'Категории товаров', 'url' => ['/admin/category-auto']],
-                    //['label' => 'Производители', 'url' => ['/admin/suppliers']],
                     ['label' => 'Категории(стр. поиска)', 'url' => ['/admin/category-search']],
-                    ['label' => 'Производители(стр. поиска)', 'url' => ['/admin/suppliers-search']],
-                    ['label' => 'Техномир', 'url' => ['/admin/tehnomir']],
-                    ['label' => 'Пустые запросы', 'url' => ['/admin/log-null-search']],
                 ],
             ],
             [
-                'label' => 'Каталоги',
-                'url' => ['#'],
-                'items' => [
-                    ['label' => '==TecDoc==', 'url' => '#',
-                        'options' => ['class' => 'list-group-item list-group-item-info'],
-                    ],
-//                    ['label' => 'Марки', 'url' => ['/admin/mark']],
-                    ['label' => 'Марки авто', 'url' => ['/admin/car-brand']],
-                ],
-            ],
-            [
-                'label' => 'Почта, телефон',
+                'label' => 'Почта',
                 'url' => ['#'],
                 'items' => [
                     ['label' => 'Настройки почты', 'url' => ['/admin/mail-setting']],
                     ['label' => 'Управление адресами', 'url' => ['/admin/mail-setting/group-index']],
-                    ['label' => 'Телефоны менеджеров', 'url' => ['/admin/phone']],
                 ],
             ],
-
-            ['label' => 'Отзывы', 'url' => ['/admin/reviews']],
-/*
-            [
-                'label' => 'Отзывы',
-                'url' => ['#'],
-                'items' => [
-                    ['label' => 'Модерирование', 'url' => ['/admin/reviews']],
-                    ['label' => 'Test Social', 'url' => ['/admin/social']],
-                ],
-            ],
-*/
-            ['label' => 'Админка прайсов', 'url' => ['/admin_price/web']],
         ],
-
     ]);
 
     NavBar::end();
