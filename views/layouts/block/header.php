@@ -10,20 +10,27 @@ NavBar::begin([
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
 ]);
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
-    'items' => [
+
+$tmpItem =
+    [
         ['label' => 'Контакты', 'url' => ['/site/index']],
         ['label' => 'О компании', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Админка', 'url' => ['/admin']],
-        ['label' => 'Регистрация', 'url' => ['/site/authoriz']],
-        ($_SESSION['role'] == 'unreg') ? (
-        ['label' => 'Вход', 'url' => ['/site/login']]
-        ) : (
-        ['label' => 'Выход', 'url' => ['/site/logout']]
-        )
-    ],
+    ];
+if (($_SESSION['role'] == 'admin')) {
+    $tmpItem [] = ['label' => 'Админка', 'url' => ['/admin']];
+}
+if (($_SESSION['role'] == 'unreg')) {
+    $tmpItem [] = ['label' => 'Регистрация', 'url' => ['/site/authoriz']];
+    $tmpItem [] = ['label' => 'Вход', 'url' => ['/site/login']];
+} else {
+    $tmpItem [] = ['label' => 'Выход', 'url' => ['/site/logout']];
+}
+
+
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'items' => $tmpItem
 ]);
 NavBar::end();
 
