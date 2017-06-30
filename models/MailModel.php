@@ -9,6 +9,7 @@ use Swift_Plugins_Loggers_ArrayLogger;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\Url;
 use yii\swiftmailer\Mailer;
 
 class MailModel extends Model
@@ -70,6 +71,13 @@ class MailModel extends Model
     public function sendRegistration($user, $ori_pasw)
     {
         //echo '<pre>'; var_dump($user); die;
+//        $absoluteHomeUrl = Url::home(true); //http://ваш сайт
+//        $serverName = Yii::$app->request->serverName; //ваш сайт без http
+        $url = Url::home(true).'?r=site/activation&code='.$user->activate_hash;
+
+
+
+
         $model = new MailAdressModel();
         $result = $model->getForGroup('manager');
 
@@ -80,30 +88,31 @@ class MailModel extends Model
         $adress = [];
         $adress[] = $user->email;
 
-        //$informSubject = date('H:i:s', time()) . ' - NIRAX: База кроссов. Подтверждение регистрации.';
-        $informSubject = date('H:i:s', time()) . ' -  База кроссов. Подтверждение регистрации.';
+        $informSubject = date('H:i:s', time()) . ' - NIRAX: База кроссов. Подтверждение регистрации.';
+
+/*        Учетная запись <b>' . $user->username . '</b><br>
+    E-mail <b>' . $user->email . '</b><br>
+    Пароль  <b>' . $ori_pasw . '</b> успешно зарегистрирована.<br>*/
 
         $body = '<div>
                 <p>
                 Здравствуйте, <b>' . $user->name . '</b>
                 </p>
                 <p>
-                Учетная запись <b>' . $user->username . '</b><br>
-                E-mail <b>' . $user->email . '</b><br>
-                Пароль  <b>' . $ori_pasw . '</b><br>
-                успешно зарегистрирована.<br>
+                Учетная запись <b>' . $user->email . '</b> успешно зарегистрирована.<br>
                 </p>
                 <p>
-                Для подтверждения и активации этой учетной записи, пожалуйста, перейдите по ссылке:<br>
-                <i><b>http://web.ua/api/confirmation.html?id=58&login=Zapchasti</b></i>
+                Чтобы подтвердить электронный адрес учетной записи, пожалуйста, перейдите по ссылке:<br>
+                <i><b><a href='. $url.'>'. $url.'</a></b></i>
                 </p>
                 <p>
                 Если это письмо попало к вам случайно, то просто удалите его.
                 </p>
                 <p>
-                С уважением, Служба поддержки
-                  www.ggg.ua
-                  Email: support@ggg.ua
+                С уважением,<br> 
+                Служба поддержки <b>NIRAX</b><br>
+                 http://www.nirax.ru<br>
+                 Email: support@nirax.ru<br>
                 </p>
         </div>';
 

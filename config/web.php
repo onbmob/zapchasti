@@ -40,14 +40,11 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
+    /*    'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+            'rules' => require(__DIR__ . '/urlRules.php'),
+        ],*/
     ],
     'params' => $params,
 ];

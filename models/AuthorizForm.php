@@ -18,6 +18,9 @@ class AuthorizForm extends Model
     public $phone;
     public $error='';
     public $verifyCode;
+    public $activate_hash;
+    public $activity;
+    public $id;
 
 
     /**
@@ -43,6 +46,7 @@ class AuthorizForm extends Model
             //['email', 'unique', 'targetClass' => self::className(), 'message' => 'Такой E-mail уже существует.'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
+            [['activate_hash','id'], 'safe'],
         ];
     }
 
@@ -87,6 +91,8 @@ class AuthorizForm extends Model
 
             $ori_pasw = $this->password;
             $this->password = md5($this->password);
+            $this->activate_hash = md5($this->password . $this->email );
+            $this->activity = 'n';
             User::saveUser($this);
             $mail = new MailModel();
             $mail->sendRegistration($this,$ori_pasw);

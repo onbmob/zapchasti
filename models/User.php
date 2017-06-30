@@ -64,7 +64,8 @@ class User extends ActiveRecord
             'email' => $data->email,
             'phone' => $data->phone,
             'role' => 'user',
-            'activity' => 'n',
+            'activity' => $data->activity,
+            'activate_hash' => $data->activate_hash,
         ])->execute();
     }
 
@@ -92,6 +93,11 @@ class User extends ActiveRecord
             ->all();
         //echo '<pre>'; var_dump($result); die;
         return $result;
+    }
+
+    public static function findActivate($code)
+    {
+        return self::find()->where(['activate_hash'=>$code])->one();
     }
 
     /*

@@ -1,6 +1,9 @@
 <?php
 
 return [
+//    '' => 'authorized/index',
+//    'index' => 'authorized/index',
+    'activation/<code:[\s\w-.=,()]+>' => 'site/activation',
 /*
     '' => 'authorized/index',
     'exit' => 'authorized/exit',
