@@ -4,12 +4,16 @@ namespace app\controllers;
 
 use app\models\AuthorizForm;
 use app\models\BaseService;
+use app\models\StaticPages;
 use app\models\User;
+use app\modules\admin\models\ClientModel;
+use app\modules\admin\models\SupliersModel;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -154,6 +158,27 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionCabinet()
+    {
+        $id=$_SESSION['userId'];
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if($model->validate()) {
+                /*$model->images = UploadedFile::getInstance($model, 'images');
+                if ($model->images) {
+                    $image_name = 'images/avatars/' . $model->id. '.png';
+                    $model->images->saveAs($image_name);
+                }*/
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('cabinet', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     /**
      * Displays about page.
      *
@@ -162,6 +187,23 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionPages()
+    {
+        $pageId = Yii::$app->request->get('id');
+        $suplId = Yii::$app->request->get('supl');
+        $pageModel = new StaticPages();
+        $page=$pageModel->getPageId($pageId);
+
+        $suplModel = new SupliersModel();
+        $supl=$suplModel->getFullID($suplId);
+
+
+        return $this->render('pages', [
+            'supl' => $supl,
+            'page' => $page
+        ]);
     }
 
     /*
@@ -186,6 +228,14 @@ class SiteController extends Controller
         }
         $absoluteHomeUrl = Url::home(true);
         return $this->redirect($absoluteHomeUrl, 303); //на главную
+    }
+    protected function findModel($id)
+    {
+        if (($model = ClientModel::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }

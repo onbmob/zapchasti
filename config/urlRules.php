@@ -1,9 +1,11 @@
 <?php
 
 return [
-//    '' => 'authorized/index',
-//    'index' => 'authorized/index',
+//    '' => 'site/index',
+//    'index' => 'site/index',
     'activation/<code:[\s\w-.=,()]+>' => 'site/activation',
+    'pages/<id:[\d]+>/<supl:[\d]+>' => 'site/pages',
+    'about' => 'site/about',
 /*
     '' => 'authorized/index',
     'exit' => 'authorized/exit',

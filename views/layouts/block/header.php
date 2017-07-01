@@ -1,10 +1,10 @@
 <?php
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+
 //use yii\helpers\Html;
 $menu_model = new \app\modules\admin\models\CategorySearchModel();
 $menu = $menu_model->getPagesListKartik();
-//echo '<pre>'; var_dump($menu); die;
 
 
 NavBar::begin([
@@ -17,10 +17,25 @@ NavBar::begin([
 
 $tmpItem =
     [
-        ['label' => 'Контакты', 'url' => ['/site/index']],
-        ['label' => 'О компании', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Главная', 'url' => ['/site/index']],
+//        ['label' => 'О компании', 'url' => ['/site/about']],
+//        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
+foreach ($menu as $item) {
+    $t='&';
+    $titem = [];
+    foreach ($item['sections'] as $item1) {
+//        $titem [] = ['label' => $item1['title'], 'url' => ['/site/pages&id='. $item1['id'].'&supl='. $item1['supliers']]];
+        $titem [] = ['label' => $item1['title'], 'url' => ['/site/pages/','id'=>$item1['id'],'supl'=>$item1['supliers']]];
+    }
+    $tmpItem [] = [
+        'label' => $item['title'],
+        'url' => ['#'],
+        'items' => $titem,
+    ];
+}
+
+
 if (($_SESSION['role'] == 'admin')) {
     $tmpItem [] = ['label' => 'Админка', 'url' => ['/admin']];
 }
@@ -34,6 +49,7 @@ if (($_SESSION['role'] == 'unreg')) {
             ],
         ]];
 } else {
+    $tmpItem [] = ['label' => 'Личный кабинет', 'url' => ['/site/cabinet']];
     $tmpItem [] = ['label' => 'Выход', 'url' => ['/site/logout']];
 }
 

@@ -73,7 +73,7 @@ class StaticPages extends \yii\db\ActiveRecord {
     {
         return self::find()->asArray()
             //->select(['id', 'url', 'url_old', 'url_old', 'url_old_alternate', 'page_url', 'page_title', 'title', 'img', 'parent'])
-            ->select(['id', 'title', 'supliers'])
+//            ->select(['id', 'title', 'supliers'])
             ->where(['id' => $id])
             ->one();
     }

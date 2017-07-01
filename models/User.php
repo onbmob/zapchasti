@@ -100,6 +100,11 @@ class User extends ActiveRecord
         return self::find()->where(['activate_hash'=>$code])->one();
     }
 
+    public static function findById($id)
+    {
+        return self::find()->asArray()->where(['id'=>$id])->one();
+    }
+
     /*
         public static function findByUsername($username)
         {

@@ -249,4 +249,11 @@ class SupliersModel extends ActiveRecord
             ->one();
         return $result['supl_name'];
     }
+    public function getFullID($id)
+    {
+        $result = self::find()->asArray()
+            ->where(['id' => $id])
+            ->one();
+        return $result;
+    }
 }
