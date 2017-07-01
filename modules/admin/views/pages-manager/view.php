@@ -17,7 +17,7 @@ $supl = new SupliersModel();
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Выйти', 'index.php?r=admin',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Выйти', 'index.php?r=admin/pages-manager',['class' => 'btn btn-success']); ?>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
