@@ -1,6 +1,7 @@
 <?php
 
 namespace app\modules\admin\models;
+use app\models\StaticPages;
 use kartik\tree\models\Tree;
 use yii;
 use yii\web\UploadedFile;
@@ -63,7 +64,8 @@ class CategorySearchModel extends Tree
             ->all();
         return $result;*/
     }
-    public function getLft($lft,$rgt, $lvl, $root){
+
+    public static function getLft($lft,$rgt, $lvl, $root){
 
         /*$sql = "SELECT * FROM ".$this->tableName()."
                 WHERE lvl = '" . $lvl . "'
@@ -87,7 +89,7 @@ class CategorySearchModel extends Tree
         return $result;
     }
 
-    public function getlvl($lvl){
+    public static function getlvl($lvl){
 
         /*$sql = "SELECT * FROM ".$this->tableName()."
                 WHERE lvl = '" . $lvl . "' AND  active = true;";
@@ -110,5 +112,61 @@ class CategorySearchModel extends Tree
             ->one();
         return $result;
     }
+
+    public static $null_mas = [
+        'id' => 0,
+        'supliers' => 0,
+        'title' => '',
+    ];
+
+    public static function getPagesListKartik()
+    {
+        $level = 0;
+        $page = new StaticPages();
+        $lvl = self::getlvl($level);
+        //echo '<pre>'; var_dump($lvl[0]); die;
+        $result = [];
+        foreach($lvl as $item){
+            $level = 1;
+            $root = $item['id'];
+            $mas = $page->getPageId($item['page_id']);
+            if($mas == null){
+                $stpages = self::$null_mas;
+                $stpages['title'] = $item['name'];
+            } else {
+                $stpages = $mas;
+                $stpages['title'] = $item['name'];
+            }
+
+            $res = self::getPagesListKartikSection($item['lft'],$item['rgt'], $level ,$root);
+            if($res !== null) $stpages['sections'] = $res;
+            $result[] = $stpages;
+        }
+
+        //echo '<pre>'; var_dump($result);
+        //die;
+
+        return $result;
+    }
+
+    public static function getPagesListKartikSection($lft, $rgt , $level , $root)
+    {
+        $result = [];
+        $page = new StaticPages();
+        if($level > 2) return $result; //В меню только 3 вложения !!!!!
+        $lvl = self::getLft($lft,$rgt, $level ,$root);
+        if($lvl == null) return $result;
+        foreach($lvl as $item){
+            $mas = $page->getPageId($item['page_id']);
+            if($mas == null) { continue; }
+            //echo '<pre>'; var_dump($mas);
+            $stpages = $mas;
+            $stpages['title'] = $item['name'];
+            $stpages['sections'] = self::getPagesListKartikSection($item['lft'],$item['rgt'], $level+1 ,$root);
+            $result[] = $stpages;
+        }
+        return $result;
+    }
+
 
 }

@@ -69,6 +69,15 @@ class StaticPages extends \yii\db\ActiveRecord {
         ];
     }
 
+    public static function getPageId($id)
+    {
+        return self::find()->asArray()
+            //->select(['id', 'url', 'url_old', 'url_old', 'url_old_alternate', 'page_url', 'page_title', 'title', 'img', 'parent'])
+            ->select(['id', 'title', 'supliers'])
+            ->where(['id' => $id])
+            ->one();
+    }
+
     public static function getAllPages()
     {
         $pages = false;//Yii::$app->cache->get('MenuStatPages');
