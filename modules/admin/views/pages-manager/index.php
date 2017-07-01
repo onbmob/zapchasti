@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\admin\models\SupliersModel;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -9,6 +10,7 @@ use yii\grid\GridView;
 
 $this->title = 'Статические страницы';
 $this->params['breadcrumbs'][] = $this->title;
+$supl = new SupliersModel();
 ?>
 <div class="static-pages-index">
 
@@ -24,6 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             'Title',
+            [
+                'attribute' => 'supliers',
+                'format' => 'raw',
+                'value'=> function($searchModel){
+                       $supl = new SupliersModel();
+                        return $supl->getID($searchModel->supliers);
+                    }
+            ],
+            'url',
 //            [
 //                'attribute' => 'url',
 //                'format' => 'raw',

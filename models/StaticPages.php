@@ -30,12 +30,16 @@ class StaticPages extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['Title', 'url', 'content', 'keywords', 'description'], 'required'],
+            /*[['Title', 'url', 'content', 'keywords', 'description'], 'required'],
             [['keywords', 'description'], 'string'],
             [['topMenu'], 'boolean'],
             [['position'], 'integer'],
             [['beforeContent', 'content', 'afterContent'], 'safe'],
             [['Title', 'url'], 'string', 'max' => 250],
+            [['url'], 'unique']*/
+            [['Title', 'url', 'content'], 'required'],
+            [['Title', 'url'], 'string', 'max' => 250],
+            [['supliers'], 'integer'],
             [['url'], 'unique']
         ];
     }
@@ -44,7 +48,7 @@ class StaticPages extends \yii\db\ActiveRecord {
      * @inheritdoc
      */
     public function attributeLabels() {
-        return [
+       /* return [
             'id' => 'ID',
             'Title' => 'Заголовок',
             'url' => 'Адрес',
@@ -55,6 +59,13 @@ class StaticPages extends \yii\db\ActiveRecord {
             'description' => 'Описание (description)',
             'topMenu' => 'Включить в верхнее меню',
             'position' => 'Позиция',
+        ];*/
+        return [
+            'id' => 'ID',
+            'Title' => 'Заголовок',
+            'url' => 'Адрес',
+            'content' => 'Содержание',
+            'supliers' => 'Поставщик',
         ];
     }
 
@@ -62,7 +73,8 @@ class StaticPages extends \yii\db\ActiveRecord {
     {
         $pages = false;//Yii::$app->cache->get('MenuStatPages');
         if( $pages === false ) {
-            $pages = self::find()->select(['id', 'Title'])
+            $pages = self::find()
+                ->select(['id', 'Title'])
                 //->orderBy('page_title')
                 ->all();
 

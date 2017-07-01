@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Сбросить',['class' => 'btn btn-default']) ?>
-        <?= Html::a('Выход', 'index.php?r=admin',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Выход', 'index.php?r=admin/mail-setting',['class' => 'btn btn-success']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>

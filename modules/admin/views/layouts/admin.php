@@ -36,18 +36,20 @@ $this->beginPage();
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Пользователи', 'url' => ['/admin/client']],
+            ['label' => 'Поставщики', 'url' => ['/admin/supliers']],
             [
                 'label' => 'Настройки сайта',
                 'url' => ['#'],
                 'items' => [
                     ['label' => 'Статические страницы', 'url' => ['/admin/pages-manager']],
-                    ['label' => 'Категории(стр. поиска)', 'url' => ['/admin/category-search']],
+                    ['label' => 'Меню ст.страниц', 'url' => ['/admin/category-search']],
                 ],
             ],
             [
-                'label' => 'Почта',
+                'label' => 'Настройки',
                 'url' => ['#'],
                 'items' => [
+                    ['label' => 'Регионы', 'url' => ['/admin/region']],
                     ['label' => 'Настройки почты', 'url' => ['/admin/mail-setting']],
                     ['label' => 'Управление адресами', 'url' => ['/admin/mail-setting/group-index']],
                 ],

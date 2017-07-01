@@ -16,6 +16,6 @@ $this->params['breadcrumbs'][] = 'Редактирование';
     <?= $this->render('form', [
         'model' => $model,
     ]) ?>
-    <?= Html::a('Выход', 'index.php?r=admin',['class' => 'btn btn-success']); ?>
+    <?= Html::a('Выход', 'index.php?r=admin/mail-setting',['class' => 'btn btn-success']); ?>
 
 </div>

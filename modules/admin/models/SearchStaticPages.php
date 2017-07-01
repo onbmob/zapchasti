@@ -14,8 +14,9 @@ class SearchStaticPages extends StaticPages {
      */
     public function rules() {
         return [
-            [['id', 'topMenu', 'position'], 'integer'],
-            [['Title', 'url', 'beforeContent', 'content', 'afterContent', 'keywords', 'description'], 'safe'],
+            [['id'], 'integer'],
+            [['supliers'], 'safe'],
+            [['Title', 'url', 'content'], 'safe'],
         ];
     }
 
@@ -51,17 +52,17 @@ class SearchStaticPages extends StaticPages {
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'topMenu' => $this->topMenu,
-            'position' => $this->position,
+            //'topMenu' => $this->topMenu,
+            //'position' => $this->position,
         ]);
 
         $query->andFilterWhere(['like', 'Title', $this->Title])
             ->andFilterWhere(['like', 'url', $this->url])
-            ->andFilterWhere(['like', 'beforeContent', $this->beforeContent])
-            ->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'afterContent', $this->afterContent])
-            ->andFilterWhere(['like', 'keywords', $this->keywords])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'supliers', $this->supliers])
+            ->andFilterWhere(['like', 'content', $this->content]);
+            //->andFilterWhere(['like', 'afterContent', $this->afterContent])
+            //->andFilterWhere(['like', 'keywords', $this->keywords])
+            //->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

@@ -4,20 +4,23 @@ use yii\widgets\DetailView;
 
 /* @var $model app\modules\admin\models\ClientModel */
 
-$this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $model->user_name;
+$this->params['breadcrumbs'][] = ['label' => 'Поставщики', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->supl_name;
+
+$region = new \app\modules\admin\models\RegionModel();
+
 ?>
 <div class="cars-category-view">
 
     <h1><?= Html::encode($model->user_name) ?></h1>
 
     <p>
-        <?= Html::a('Выход', 'index.php?r=admin/client',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Выход', 'index.php?r=admin/supliers',['class' => 'btn btn-success']); ?>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы действительно хотите удалить '. $model->user_name .' ?',
+                'confirm' => 'Вы действительно хотите удалить '. $model->supl_name .' ?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -26,15 +29,20 @@ $this->params['breadcrumbs'][] = $model->user_name;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//            'id',
             'login',
-//            'pwd',
-            'user_code',
-            'user_name',
-            'email',
-            'phone',
+            'supl_name',
             'role',
             'activity',
+            'user_name',
+            [
+                'attribute' => 'region',
+                'format' => 'raw',
+                'value'=> $region->getID($model->region)
+            ],
+            'email',
+            'phone',
+            'skype',
+            'icq',
 //            'activate_hash',
 //            'columns',
 //            'hide_art',
