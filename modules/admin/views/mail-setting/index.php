@@ -21,7 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'host',
             'username',
             'password',
-            'port'
+            'port',
+            'encryption'
         ],
     ]) ?>
 

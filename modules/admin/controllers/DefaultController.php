@@ -11,7 +11,7 @@ class DefaultController extends Controller
         return [
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => '/images/pages', // URL адрес папки куда будут загружатся изображения.
+                'url' => 'images/pages', // URL адрес папки куда будут загружатся изображения.
                 'path' => '@app/web/images/pages' // Или абсолютный путь к папке куда будут загружатся изображения.
             ],
         ];

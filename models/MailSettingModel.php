@@ -31,9 +31,9 @@ class MailSettingModel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['host', 'username', 'password',], 'required'],
+            [['host', 'username', 'password', 'encryption'], 'required'],
             [['port'], 'integer'],
-            [['class', 'host', 'username', 'password'], 'string', 'max' => 255]
+            [['class', 'host', 'username', 'password', 'encryption'], 'string', 'max' => 255]
         ];
     }
 
@@ -48,6 +48,7 @@ class MailSettingModel extends \yii\db\ActiveRecord
             'username' => 'Пользователь',
             'password' => 'Пароль',
             'port' => 'Порт для отправки',
+            'encryption' => 'encryption',
         ];
     }
 
@@ -63,6 +64,7 @@ class MailSettingModel extends \yii\db\ActiveRecord
             'username' => $result['username'],
             'password' => $result['password'],
             'port' => $result['port'],
+            //'encryption' => $result['encryption'],
         ];
 
 /*
