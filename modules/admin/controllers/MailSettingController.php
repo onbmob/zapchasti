@@ -20,7 +20,7 @@ class MailSettingController extends \yii\web\Controller{
         $model = $this->findModel();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('index');
+            return $this->redirect('index.php?r=admin/mail-setting');
         } else {
             return $this->render('settingForm', [
                 'model' => $model,
