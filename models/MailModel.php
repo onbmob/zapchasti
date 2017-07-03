@@ -56,13 +56,13 @@ class MailModel extends Model
         //->send();
         if ($img != '') $result->attach($img);
 
-        //$logger = new Swift_Plugins_Loggers_ArrayLogger();
-        //$this->mailer->getSwiftMailer()->registerPlugin(new Swift_Plugins_LoggerPlugin($logger));
+        $logger = new Swift_Plugins_Loggers_ArrayLogger();
+        $this->mailer->getSwiftMailer()->registerPlugin(new Swift_Plugins_LoggerPlugin($logger));
 
         if (!$result->send()) {//Перехват ошибки в SiteController - actionError
-            //echo $logger->dump();
+            echo $logger->dump();
             echo '<br>===================================<br>ERROR - <pre>';
-            //var_dump($logger);
+            var_dump($logger);
             die;
         }
         return $result;
