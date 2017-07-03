@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'port')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'encryption')->textInput(['maxlength' => true]) ?>
+   <!-- --><?/*= $form->field($model, 'encryption')->textInput(['maxlength' => true]) */?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
