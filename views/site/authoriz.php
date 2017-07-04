@@ -31,7 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?= $form->field($model, 'email') ?>
 
-                    <?= $form->field($model, 'phone') ?>
+                    <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+                        'mask' => '+7(999) 999-99-99',
+                    ]); ?>
 
                     <?/*= $form->field($model, 'body')->textarea(['rows' => 6]) */?>
 

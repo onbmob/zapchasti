@@ -33,7 +33,9 @@ $mas[0] = '-'; $regions = $mas + $regions;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [
+        'mask' => '+7(999) 999-99-99',
+    ]); ?>
 
     <?= $form->field($model, 'skype')->textInput(['maxlength' => true]) ?>
 
