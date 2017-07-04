@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\admin\models\SupliersModel;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -10,6 +11,7 @@ use yii\grid\GridView;
 
 $this->title = 'Просмотр пользователей';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="popular-category-index">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -30,6 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_name',
             'login',
             'email',
+            [
+                'attribute' => 'supl_id',
+                'format' => 'raw',
+                'value'=> function($model){
+                    $supl = new SupliersModel();
+                    return $supl->getID($model->supl_id);
+                }
+            ],
 //            'pwd',
 //            'a',
             //'columns',

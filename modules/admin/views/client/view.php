@@ -1,4 +1,5 @@
 <?php
+use app\modules\admin\models\SupliersModel;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -6,10 +7,12 @@ use yii\widgets\DetailView;
 
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->user_name;
+$supl = new SupliersModel();
+
 ?>
 <div class="cars-category-view">
 
-    <h1><?= Html::encode($model->user_name) ?></h1>
+    <h1><?= Html::encode('Пользователь : '.$model->user_name) ?></h1>
 
     <p>
         <?= Html::a('Выход', 'index.php?r=admin/client',['class' => 'btn btn-success']); ?>
@@ -26,12 +29,17 @@ $this->params['breadcrumbs'][] = $model->user_name;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//            'id',
+            'id',
             'login',
 //            'pwd',
             'user_code',
             'user_name',
             'email',
+            [
+                'attribute' => 'supl_id',
+                'format' => 'raw',
+                'value'=> $supl->getID($model->supl_id)
+            ],
             'phone',
             'role',
             'activity',

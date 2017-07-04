@@ -21,9 +21,9 @@ $mas[0] = '-'; $regions = $mas + $regions;
         $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
     ?>
 
-    <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'supl_name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'role')->dropDownList(['user'=>'Пользователь','admin'=>'Администратор']) ?>
 

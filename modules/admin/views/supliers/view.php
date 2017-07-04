@@ -12,7 +12,7 @@ $region = new \app\modules\admin\models\RegionModel();
 ?>
 <div class="cars-category-view">
 
-    <h1><?= Html::encode($model->user_name) ?></h1>
+    <h1><?= Html::encode('Поставщик : '.$model->supl_name) ?></h1>
 
     <p>
         <?= Html::a('Выход', 'index.php?r=admin/supliers',['class' => 'btn btn-success']); ?>
@@ -29,8 +29,9 @@ $region = new \app\modules\admin\models\RegionModel();
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'login',
+            'id',
             'supl_name',
+            'login',
             'role',
             'activity',
             'user_name',

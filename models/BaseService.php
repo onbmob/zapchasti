@@ -13,6 +13,7 @@ class BaseService {
     public $userCode = '';
     public $userName = '';
     public $email = '';
+    public $supl_id = 0;
 
 
     public function setParNewSession()
@@ -24,6 +25,7 @@ class BaseService {
         $_SESSION['userCode'] = $this->userCode;
         $_SESSION['userName'] = $this->userName;
         $_SESSION['email'] = $this->email;
+        $_SESSION['supl_id'] = $this->supl_id;
 
     }
 
@@ -45,6 +47,9 @@ class BaseService {
             $this->userCode = $_SESSION['userCode'];
             $this->userName = $_SESSION['userName'];
             $this->email = $_SESSION['email'];
+            $this->supl_id = $_SESSION['supl_id'];
+            //if(isset($_SESSION['supl_id'])) $this->supl_id = $_SESSION['supl_id'];
+            //else $this->supl_id = $_SESSION['supl_id'] = 0;
         }
 
         /*if(isset($_SESSION['maxlifetime']) && time() > $_SESSION['maxlifetime']){

@@ -30,13 +30,6 @@ class StaticPages extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            /*[['Title', 'url', 'content', 'keywords', 'description'], 'required'],
-            [['keywords', 'description'], 'string'],
-            [['topMenu'], 'boolean'],
-            [['position'], 'integer'],
-            [['beforeContent', 'content', 'afterContent'], 'safe'],
-            [['Title', 'url'], 'string', 'max' => 250],
-            [['url'], 'unique']*/
             [['Title', 'url', 'content'], 'required'],
             [['Title', 'url'], 'string', 'max' => 250],
             [['supliers'], 'integer'],
@@ -48,18 +41,6 @@ class StaticPages extends \yii\db\ActiveRecord {
      * @inheritdoc
      */
     public function attributeLabels() {
-       /* return [
-            'id' => 'ID',
-            'Title' => 'Заголовок',
-            'url' => 'Адрес',
-            'beforeContent' => 'До содержания',
-            'content' => 'Содержание',
-            'afterContent' => 'После содержания',
-            'keywords' => 'Ключевые слова (keywords)',
-            'description' => 'Описание (description)',
-            'topMenu' => 'Включить в верхнее меню',
-            'position' => 'Позиция',
-        ];*/
         return [
             'id' => 'ID',
             'Title' => 'Заголовок',

@@ -93,6 +93,7 @@ class LoginForm extends Model
                     $_SESSION['userCode'] = $this->_user[0]['user_code'];
                     $_SESSION['userName'] = $this->_user[0]['user_name'];
                     $_SESSION['email'] = $this->_user[0]['email'];
+                    $_SESSION['supl_id'] = $this->_user[0]['supl_id'];
                     return $this->_user;
                 }
                 //return true;

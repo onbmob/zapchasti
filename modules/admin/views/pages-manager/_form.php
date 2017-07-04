@@ -14,9 +14,9 @@ $Supliers_model = new \app\modules\admin\models\SupliersModel();
 $Supliers = $Supliers_model->getAll();
 
 
-/*usort($Supliers, function ($a, $b) {
-    return (strnatcasecmp(str_replace(' ','',$a->supl_name), str_replace(' ','',$b->supl_name)));
-});*/
+usort($Supliers, function ($a, $b) {
+    return (strnatcasecmp(str_replace(' ','',$a['supl_name']), str_replace(' ','',$b['supl_name'])));
+});
 
 $Supliers = ArrayHelper::map($Supliers, 'id', 'supl_name');
 $mas[0] = '-';  $Supliers = $mas + $Supliers;

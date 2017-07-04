@@ -32,6 +32,7 @@ class ClientSearch extends ClientModel
             ['user_name', 'safe'],
             ['email', 'safe'],
             ['phone',  'safe'],
+            ['supl_id',  'integer'],
 //            [['activate_hash'],  'safe'],
             ['activity','in','range'=>['y','n'], 'strict'=>true, 'message' => 'Введите y / n'],
             ['service', 'safe'],
@@ -79,6 +80,7 @@ class ClientSearch extends ClientModel
             ->andFilterWhere(['like', 'user_code', $this->user_code])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'supl_id', $this->supl_id])
             ->andFilterWhere(['like', 'activity', $this->activity])
             ->andFilterWhere(['like', 'service', $this->service])
             ->andFilterWhere(['like', 'town', $this->town])

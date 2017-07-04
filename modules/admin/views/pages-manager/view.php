@@ -31,6 +31,7 @@ $supl = new SupliersModel();
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'id',
             'Title',
             [
                 'attribute' => 'supliers',

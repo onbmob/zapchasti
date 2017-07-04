@@ -70,6 +70,8 @@ class ClientModel extends ActiveRecord
 
             ['phone', 'string', 'max' => 100],
 
+            ['supl_id', 'integer'],
+
             [['activate_hash'], 'string', 'max' => 100],
 
             ['activity', 'in', 'range' => ['y', 'n'], 'strict' => true, 'message' => 'Введите y / n'],
@@ -109,6 +111,7 @@ class ClientModel extends ActiveRecord
             'user_name' => 'ФИО пользователя',
             'email' => 'Почта',
             'phone' => 'Телефон пользователя',
+            'supl_id' => 'Представитель поставщика',
             'activity' => 'Активность (y/n)',
             'activate_hash' => 'Хеш активации',
             //'columns' => 'Карточек на странице',

@@ -243,11 +243,12 @@ class SupliersModel extends ActiveRecord
     }
 
     public function getID($id)
-    {
+    {//Для отображения названия и id
         $result = self::find()
             ->where(['id' => $id])
             ->one();
-        return $result['supl_name'];
+        if(isset($result['supl_name'])) return $result['supl_name'].' #'.$result['id'];
+        else return null;
     }
     public function getFullID($id)
     {

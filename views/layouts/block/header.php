@@ -8,7 +8,7 @@ $menu = $menu_model->getPagesListKartik();
 
 
 NavBar::begin([
-    'brandLabel' => 'Зпчасти от NIRAX',
+    'brandLabel' => 'Зпчасти от NIRAX : '.$_SESSION['userName'],
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
@@ -49,7 +49,18 @@ if (($_SESSION['role'] == 'unreg')) {
             ],
         ]];
 } else {
-    $tmpItem [] = ['label' => 'Личный кабинет', 'url' => ['/site/cabinet']];
+    if (($_SESSION['supl_id'] == 0)) {//У юзера нет поставщика
+        $tmpItem [] = ['label' => 'Личный кабинет', 'url' => ['/site/cabinet']];
+    } else{
+        $tmpItem [] = [
+            'label' => 'Личный кабинет',
+            'url' => ['#'],
+            'items' => [
+                ['label' => 'Пользователь', 'url' => ['/site/cabinet']],
+                ['label' => 'Поставщик', 'url' => ['/site/cabinet_supl'],
+                ],
+            ]];
+    }
     $tmpItem [] = ['label' => 'Выход', 'url' => ['/site/logout']];
 }
 

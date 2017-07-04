@@ -179,6 +179,27 @@ class SiteController extends Controller
         }
     }
 
+    public function actionCabinet_supl()
+    {
+        $id=$_SESSION['supl_id'];
+        if (($model = SupliersModel::findOne($id)) == null) $model = [];
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if($model->validate()) {
+                /*$model->images = UploadedFile::getInstance($model, 'images');
+                if ($model->images) {
+                    $image_name = 'images/avatars/' . $model->id. '.png';
+                    $model->images->saveAs($image_name);
+                }*/
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('cabinet_supl', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     /**
      * Displays about page.
      *
@@ -229,6 +250,7 @@ class SiteController extends Controller
         $absoluteHomeUrl = Url::home(true);
         return $this->redirect($absoluteHomeUrl, 303); //на главную
     }
+
     protected function findModel($id)
     {
         if (($model = ClientModel::findOne($id)) !== null) {

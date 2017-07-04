@@ -10,7 +10,6 @@ use yii\grid\GridView;
 
 $this->title = 'Статические страницы';
 $this->params['breadcrumbs'][] = $this->title;
-$supl = new SupliersModel();
 ?>
 <div class="static-pages-index">
 
