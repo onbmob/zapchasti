@@ -26,7 +26,7 @@ $this->beginPage();
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Главная',
+        'brandLabel' => 'На главную',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -43,6 +43,7 @@ $this->beginPage();
                 'items' => [
                     ['label' => 'Статические страницы', 'url' => ['/admin/pages-manager']],
                     ['label' => 'Меню ст.страниц', 'url' => ['/admin/category-search']],
+                    ['label' => 'Авто на главной', 'url' => ['/admin/cars']],
                 ],
             ],
             [
@@ -53,6 +54,8 @@ $this->beginPage();
                     ['label' => 'Настройки БД Кроссов', 'url' => ['/admin/cross-db']],
                     ['label' => 'Настройки почты', 'url' => ['/admin/mail-setting']],
                     ['label' => 'Управление адресами', 'url' => ['/admin/mail-setting/group-index']],
+                    ['label' => 'Обновить легковые авто', 'url' => ['/admin/ajax/load-car','type'=> '1']],
+                    ['label' => 'Обновить грузовые авто', 'url' => ['/admin/ajax/load-car','type'=> '2']],
                 ],
             ],
         ],

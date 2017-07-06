@@ -4,9 +4,11 @@ namespace app\controllers;
 
 use app\models\AuthorizForm;
 use app\models\BaseService;
+use app\models\CrossDb;
 use app\models\StaticPages;
 use app\models\User;
 use app\modules\admin\models\ClientModel;
+use app\modules\admin\models\CrossDbModel;
 use app\modules\admin\models\SupliersModel;
 use Yii;
 use yii\filters\AccessControl;
@@ -77,8 +79,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
+        $all_brand = CrossDb::getManufacturers(1);
+        //$all_car = CrossDb::getCar();
+
         return $this->render('index',[
-            'session' => $this->base
+            'session' => $this->base,
+            'all_brand' => $all_brand
         ]);
     }
 
@@ -95,7 +102,8 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->render('index');
+
+            return $this->redirect(['index']);
             //return $this->goBack();
         }
         return $this->render('login', [
@@ -117,11 +125,13 @@ class SiteController extends Controller
         $base = new BaseService;
         $base->setParNewSession();
 
+        CrossDb::sessionClose();
+
         //Yii::$app->user->logout();
         //return $this->goHome();
-        return $this->render('index',[
-            'session' => $this->base
-        ]);
+
+        return $this->redirect(['index']);
+
     }
 
     /**
@@ -136,8 +146,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->authoriz(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
 
-            return $this->render('index');
-            //return $this->refresh();
+            return $this->redirect(['index']);
         }
 
         return $this->render('authoriz', [

@@ -7,67 +7,144 @@ use Yii;
 use yii\db\ActiveRecord;
 use app\modules\admin\models\CrossDbModel;
 
-class userDb extends ActiveRecord
+class CrossDb extends ActiveRecord
 {
-    public $db;
-    private $base;
-    private $limit_of_rows = 1000; // Максимум строк из базы
-    private $cache_live_time = 900; // Время жизни кеша секунд
-    private $enable_cache = false;   // Кешировать запросы к базе и 1С
-    private $enable_perf_log = false; // Логировать скорость запросов к базе
-    private $ft_min_word_len = 3; // Опция конфига mysql минимальный размер слова для индексации
 
-
-    public function TehnomirSearch($params)
+    public static function getRequestForCross($params)
     {
-        $article = $params["name"];
-        $return = $cross_code = [];
 
-        $tm = CrossDbModel::findOne(1);
+        $ch = curl_init($params['host']); // действие раз. объявили ресурс
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS , $params);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION , true);
+        curl_setopt($ch, CURLOPT_MAXREDIRS , 10);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER , true);
+        curl_setopt($ch, CURLOPT_TIMEOUT , 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST , 0);
 
-        $host = $tm['host'];
-        $host .= '?act=GetPriceWithCrosses';
-        $host .= '&usr_login=' . $tm['username'];
-        $host .= '&usr_passwd=' . $tm['password'];
-
-        /*
-                $ch = curl_init($host);
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-                //curl_setopt($ch, CURLOPT_POST,1);
-        */
-
-        $ch = curl_init(); // действие раз. объявили ресурс
-        curl_setopt_array($ch, array( // действие два. установили опции.
+       /* curl_setopt_array($ch, [ // действие два. установили опции.
+            CURLOPT_POST => 1,
+            CURLOPT_POSTFIELDS => $params,
             CURLOPT_FOLLOWLOCATION => true, // следовать перенаправлениям...
             CURLOPT_MAXREDIRS => 10, // ... но не более 10 раз
             CURLOPT_RETURNTRANSFER => true, // смешная третья опция
             CURLOPT_TIMEOUT => 10, // Сколько сек. ждать ответ сервреа (комментарий взят из вашего сообщения, порядок букв сохранен)
-            CURLOPT_URL => $host // вот этой строки можно избегать инициализируя сразу с адресом. но вам проще иметь ее тут.
-        ));
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_SSL_VERIFYHOST => 0
+            //CURLOPT_URL => $host // вот этой строки можно избегать инициализируя сразу с адресом. но вам проще иметь ее тут.
+        ]);*/
 
-        $result = curl_exec($ch);
+        $res = curl_exec($ch);
+        $result = json_decode($res,true);
+        //$result = simplexml_load_string($result); //XML
 
-        if ($result === false) {
-            echo 'ОШИБКА РАБОТЫ С УДАЛЕННЫМ САЙТОМ : ' . curl_error($ch);
+
+        if ($result['result'] === false) {
+            echo $params['host'] . ' ## ' . $params['action'] . '<br>';
+            /*
+            $result['comment'] = Error number session
+            */
+            $result['comment'] = iconv( "utf-8", "windows-1251", $result['comment']);
+            echo 'Error WORK remove site  : ' . $result['comment'].'<br>';
+            echo 'Error WORK remove site  : ' . curl_error($ch);
             curl_close($ch);
-            return array($return, $cross_code);
+            //die;
+            return $result;
         }
+
         curl_close($ch);
 
         libxml_use_internal_errors(true);
-        $error = $result;
-        $result = simplexml_load_string($result);
+        $error = $res;
 
         if (!$result) {
-            echo $host . '<br>';
-            echo 'ОШИБКА В ЗАПРОСЕ НА УДАЛЕННЫЙ САЙТ : ' . $params["name"] . ' ' . $error;
+            echo $params['host'] . ' ## ' . $params['action'] . '<br>';
+            echo 'Error REQUEST remove site : '  . ' ' . $error;
             libxml_clear_errors();
-            return array($return, $cross_code);
+            die;
+            return null;
         }
 
-       return array($return, $cross_code);
+        return $result;
 
     }
+
+    public static function initCross()
+    {
+        $tm = CrossDbModel::findOne(1);
+
+        $data['host'] = $tm['host'];
+        $data['action'] = 'sessionOpen';
+        $data['login'] = $tm['username'];
+        $data['password'] = $tm['password'];
+        $data['keySoftware'] = 'Cross';
+
+        $result = self::getRequestForCross($data);
+        return $result['idSession'];
+    }
+
+    public static function sessionClose()
+    {
+        $tm = CrossDbModel::findOne(1);
+
+        if($_SESSION['idSessionCross'] == '')
+            $_SESSION['idSessionCross'] = self::initCross();
+
+        $data['host'] = $tm['host'];
+        $data['action'] = 'sessionClose';
+        $data['idSession'] = $_SESSION['idSessionCross'];
+
+        $result = self::getRequestForCross($data);
+        return $result;
+    }
+
+    public static function getManufacturers($TreeType='')
+    {
+/*
+        Типы производителей:
+        0 –запчастей, по умолчанию;
+        1–легковых авто;
+        2–грузовых авто;
+        3–двигателей;
+        4–мотоциклов;
+        5–осей;
+*/
+        $tm = CrossDbModel::findOne(1);
+
+        if($_SESSION['idSessionCross'] == '')
+                       $_SESSION['idSessionCross'] = self::initCross();
+
+        $data['host'] = $tm['host'];
+        $data['action'] = 'getManufacturers';
+        $data['idSession'] = $_SESSION['idSessionCross'];
+        if($TreeType != '') $data['TreeType'] = $TreeType;
+
+        $result = self::getRequestForCross($data);
+
+        //echo '<pre>'; var_dump($result); die;
+        return $result;
+
+    }
+
+    public static function getCar($Car='')
+    {
+        $tm = CrossDbModel::findOne(1);
+
+        if($_SESSION['idSessionCross'] == '')
+            $_SESSION['idSessionCross'] = self::initCross();
+
+        $data['host'] = $tm['host'];
+        $data['action'] = 'getCar';
+        $data['idSession'] = $_SESSION['idSessionCross'];
+        if($Car != '') $data['Car'] = $Car;
+
+        $result = self::getRequestForCross($data);
+
+        //echo '<pre>'; var_dump($result); die;
+        return $result;
+
+    }
+
 
 }

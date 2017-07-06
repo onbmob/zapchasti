@@ -7,6 +7,7 @@ use Yii;
 class BaseService {
 
     public $session_id = '';
+    public $idSessionCross = '';
     public $login = 0;
     public $userId = 0;
     public $role = 'unreg';
@@ -19,6 +20,7 @@ class BaseService {
     public function setParNewSession()
     {
         $_SESSION['session_id'] = session_id();
+        $_SESSION['idSessionCross'] = $this->idSessionCross;
         $_SESSION['login'] = $this->login;
         $_SESSION['userId'] = $this->userId = time() * (-1);//$this->userId;
         $_SESSION['role'] = $this->role;
@@ -41,6 +43,7 @@ class BaseService {
         } else {
             //echo '<pre>'; var_dump($_SESSION);
             $this->session_id = $_SESSION['session_id'];
+            //$this->sessionOpen = $_SESSION['sessionOpen'];
             $this->login = $_SESSION['login'];
             $this->userId = $_SESSION['userId'];
             $this->role = $_SESSION['role'];
@@ -48,8 +51,9 @@ class BaseService {
             $this->userName = $_SESSION['userName'];
             $this->email = $_SESSION['email'];
             $this->supl_id = $_SESSION['supl_id'];
-            //if(isset($_SESSION['supl_id'])) $this->supl_id = $_SESSION['supl_id'];
-            //else $this->supl_id = $_SESSION['supl_id'] = 0;
+
+            if(isset($_SESSION['idSessionCross'])) $this->idSessionCross = $_SESSION['idSessionCross'];
+            else $this->idSessionCross = $_SESSION['idSessionCross'] = '';
         }
 
         /*if(isset($_SESSION['maxlifetime']) && time() > $_SESSION['maxlifetime']){
