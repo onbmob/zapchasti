@@ -50,6 +50,7 @@ $this->beginPage();
                 'url' => ['#'],
                 'items' => [
                     ['label' => 'Регионы', 'url' => ['/admin/region']],
+                    ['label' => 'Настройки БД Кроссов', 'url' => ['/admin/cross-db']],
                     ['label' => 'Настройки почты', 'url' => ['/admin/mail-setting']],
                     ['label' => 'Управление адресами', 'url' => ['/admin/mail-setting/group-index']],
                 ],

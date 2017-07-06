@@ -60,4 +60,17 @@ class BaseService {
 
     }
 
+    public static function OnlyLettersAndDigits($str)
+    {
+        return preg_replace("/([^\w]|_)/u", "", $str);
+    }
+
+    public static function ClearFloat($str)
+    {
+        $str = preg_replace("/([^\d,.])/u", "", $str);
+        $str = preg_replace("/,/u", ".", $str);
+        $str = (float)$str;
+        return $str;
+    }
+
 }
