@@ -43,7 +43,7 @@ $this->title = 'Главная страница';
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
             </div>
             <div class="col-lg-3">
                 <h3>Грузовые авто</h3>
@@ -62,7 +62,7 @@ $this->title = 'Главная страница';
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
             </div>
             <div class="col-lg-3">
                 <h3>Мотоциклы</h3>
@@ -79,7 +79,7 @@ $this->title = 'Главная страница';
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
             </div>
             <div class="col-lg-3">
                 <h3>Запчасти</h3>
@@ -96,7 +96,7 @@ $this->title = 'Главная страница';
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Yii Extensions &raquo;</a></p>
+                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
             </div>
         </div>
 
