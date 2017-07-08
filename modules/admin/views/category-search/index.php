@@ -23,7 +23,7 @@ $this->registerJs('initKartikMenu()'); //вызов ф-ции
 //        'query' => CategoryModel:: find()->andWhere(['active'=>true])->addOrderBy('root, lft'),
 
         'headingOptions' => ['label' => 'Меню'], // Титл, если не задать - не показывается
-        'rootOptions' => ['label'=>'<span class="text-primary">Меню на главной</span>'], // название корневого элемента - если нет - "Корень"
+        'rootOptions' => ['label'=>'<span class="text-primary">root</span>'], // название корневого элемента - если нет - "Корень"
 //        'fontAwesome' => false,
         'isAdmin' => true,  // показать настройки администратора и сохранить, обновить
 //        'displayValue' => 1, // ID, элемента выводимого при инициализации

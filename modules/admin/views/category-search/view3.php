@@ -277,6 +277,7 @@ echo $renderContent(Module::VIEW_PART_1);
     <div class="row">
         <div class="col-sm-4">
             <?= $form->field($node, 'active')->checkbox() ?>
+            <?= $form->field($node, 'disabled')->checkbox() ?>
         </div>
         <div class="col-sm-4">
             <?= $form->field($node, 'removable_all')->checkbox($flagOptions) ?>

@@ -4,6 +4,7 @@ namespace app\modules\admin\models;
 use app\models\StaticPages;
 use kartik\tree\models\Tree;
 use yii;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 class CategorySearchModel extends Tree
@@ -49,7 +50,7 @@ class CategorySearchModel extends Tree
         return $attributeLabels;
     }
 
-    public function get(){
+    /*public function get(){
 
         $sql = "SELECT * key_phrase FROM ".$this->tableName()."
                 WHERE lvl > 0 AND  active = true;";
@@ -57,15 +58,9 @@ class CategorySearchModel extends Tree
         $return = Yii::$app->db->createCommand($sql)->queryAll();
         return $return;
 
-        /*$result = self::find()
-            ->where("lvl > 0")
-            ->andWhere(['active'=>true])
-            ->addOrderBy('root, lft')
-            ->all();
-        return $result;*/
-    }
+    }*/
 
-    public static function getLft($lft,$rgt, $lvl, $root){
+    public static function getLft($lft,$rgt, $lvl){
 
         /*$sql = "SELECT * FROM ".$this->tableName()."
                 WHERE lvl = '" . $lvl . "'
@@ -80,28 +75,21 @@ class CategorySearchModel extends Tree
         $result = self::find()->asArray()
             //->select("name, lft, rgt, lvl")
             ->where(['lvl' => $lvl])
-            ->andWhere(['root' => $root])
             ->andWhere(['active'=>true])
             ->andWhere('lft > :a', ['a' => $lft])
             ->andWhere('lft < :b', ['b' => $rgt])
-            //->addOrderBy('root, lft')
+            ->addOrderBy('root, lft')
             ->all();
         return $result;
     }
 
     public static function getlvl($lvl){
 
-        /*$sql = "SELECT * FROM ".$this->tableName()."
-                WHERE lvl = '" . $lvl . "' AND  active = true;";
-
-        $return = Yii::$app->db->createCommand($sql)->queryAll();
-        return $return;*/
-
         $result = self::find()->asArray()
             //->select("name, lft, rgt, lvl")
             ->where(['lvl' => $lvl])
             ->andWhere(['active'=>true])
-            //->addOrderBy('root, lft')
+            ->addOrderBy('root, lft')
             ->all();
         return $result;
     }
@@ -121,48 +109,51 @@ class CategorySearchModel extends Tree
 
     public static function getPagesListKartik()
     {
-        $level = 0;
-        $page = new StaticPages();
+        $level = 1;
         $lvl = self::getlvl($level);
-        //echo '<pre>'; var_dump($lvl[0]); die;
+
+        $in=ArrayHelper::getColumn($lvl,'page_id');
+        $mas = StaticPages::find()->asArray()
+            ->select(['id', 'Title', 'supliers'])->where(['id' => $in])->all();
+        $mas = ArrayHelper::index($mas,'id');
+
         $result = [];
         foreach($lvl as $item){
-            $level = 1;
+            $level = 2;
             $root = $item['id'];
-            $mas = $page->getPageId($item['page_id']);
-            if($mas == null){
+            if(!isset($mas[$item['page_id']])){
                 $stpages = self::$null_mas;
                 $stpages['title'] = $item['name'];
             } else {
-                $stpages = $mas;
+                $stpages = $mas[$item['page_id']];
                 $stpages['title'] = $item['name'];
             }
 
-            $res = self::getPagesListKartikSection($item['lft'],$item['rgt'], $level ,$root);
+            $res = self::getPagesListKartikSection($item['lft'],$item['rgt'], $level);
             if($res !== null) $stpages['sections'] = $res;
             $result[] = $stpages;
         }
 
-        //echo '<pre>'; var_dump($result);
-        //die;
-
         return $result;
     }
 
-    public static function getPagesListKartikSection($lft, $rgt , $level , $root)
+    public static function getPagesListKartikSection($lft, $rgt , $level)
     {
         $result = [];
-        $page = new StaticPages();
-        if($level > 2) return $result; //В меню только 3 вложения !!!!!
-        $lvl = self::getLft($lft,$rgt, $level ,$root);
+        if($level > 3) return $result; //В меню только 3 вложения !!!!!
+        $lvl = self::getLft($lft,$rgt, $level);
         if($lvl == null) return $result;
+
+        $in=ArrayHelper::getColumn($lvl,'page_id');
+        $mas = StaticPages::find()->asArray()
+            ->select(['id', 'Title', 'supliers'])->where(['id' => $in])->all();
+        $mas = ArrayHelper::index($mas,'id');
+
         foreach($lvl as $item){
-            $mas = $page->getPageId($item['page_id']);
-            if($mas == null) { continue; }
-            //echo '<pre>'; var_dump($mas);
-            $stpages = $mas;
+            if(!isset($mas[$item['page_id']])) { continue; }
+            $stpages = $mas[$item['page_id']];
             $stpages['title'] = $item['name'];
-            $stpages['sections'] = self::getPagesListKartikSection($item['lft'],$item['rgt'], $level+1 ,$root);
+            $stpages['sections'] = self::getPagesListKartikSection($item['lft'],$item['rgt'], $level+1);
             $result[] = $stpages;
         }
         return $result;

@@ -5,7 +5,7 @@ use yii\bootstrap\NavBar;
 //use yii\helpers\Html;
 $menu_model = new \app\modules\admin\models\CategorySearchModel();
 $menu = $menu_model->getPagesListKartik();
-
+//echo '<pre>'; var_dump($menu); die;
 
 NavBar::begin([
     'brandLabel' => 'Зпчасти от NIRAX : '.$_SESSION['userName'],

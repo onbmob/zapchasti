@@ -32,10 +32,18 @@ $config = [
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
+            'flushInterval' => 1000,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error'],
+                    'categories' => ['cross_db'],
+                    'logFile' => "@app/runtime/logs/error_cross.log",
+                    'logVars' => [],
                 ],
             ],
         ],

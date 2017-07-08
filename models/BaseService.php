@@ -64,6 +64,11 @@ class BaseService {
 
     }
 
+    public static function SaveLogCrossDb($message,$function_name)
+    {
+        Yii::error(["Ошибка в функции ".$function_name,$message], "cross_db");
+    }
+
     public static function OnlyLettersAndDigits($str)
     {
         return preg_replace("/([^\w]|_)/u", "", $str);

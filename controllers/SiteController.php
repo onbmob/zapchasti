@@ -7,9 +7,11 @@ use app\models\BaseService;
 use app\models\CrossDb;
 use app\models\StaticPages;
 use app\models\User;
+use app\modules\admin\models\CarsModel;
 use app\modules\admin\models\ClientModel;
 use app\modules\admin\models\CrossDbModel;
 use app\modules\admin\models\SupliersModel;
+use stdClass;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
@@ -80,12 +82,34 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        $all_brand = CrossDb::getManufacturers(1);
-        //$all_car = CrossDb::getCar();
+        $cars = new CarsModel();
+        $IsPassengerCar = $cars->find()
+            //->select(['id', 'Title'])
+            ->andWhere(['IsPassengerCar' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+        $IsCommercialVehicle = $cars->find()
+            //->select(['id', 'Title'])
+            ->andWhere(['IsCommercialVehicle' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+        //$result = CrossDb::getManufacturers(1);
+        //$result = CrossDb::getCar();
+
+        $SupplerID = [];
+        $IsMotorbike = [];
+        $search = new stdClass;
+        $search->article = 'eree';
 
         return $this->render('index',[
             'session' => $this->base,
-            'all_brand' => $all_brand
+            'IsPassengerCar' => $IsPassengerCar,
+            'IsCommercialVehicle' => $IsCommercialVehicle,
+            'SupplerID' => $SupplerID,
+            'IsMotorbike' => $IsMotorbike,
+            'search' => $search,
         ]);
     }
 
@@ -118,20 +142,16 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-
-//echo '<pre>'; var_dump($_SESSION); die;
+        CrossDb::sessionClose();
         Yii::$app->session->destroy();
         Yii::$app->session->open();
         $base = new BaseService;
         $base->setParNewSession();
 
-        CrossDb::sessionClose();
-
         //Yii::$app->user->logout();
         //return $this->goHome();
 
         return $this->redirect(['index']);
-
     }
 
     /**

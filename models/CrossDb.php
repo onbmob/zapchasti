@@ -41,16 +41,18 @@ class CrossDb extends ActiveRecord
 
 
         if ($result['result'] === false) {
-            echo $params['host'] . ' ## ' . $params['action'] . '<br>';
-            /*
-            $result['comment'] = Error number session
-            */
-            $result['comment'] = iconv( "utf-8", "windows-1251", $result['comment']);
-            echo 'Error WORK remove site  : ' . $result['comment'].'<br>';
-            echo 'Error WORK remove site  : ' . curl_error($ch);
+            /*$result['comment'] = Error number session*/
+            //echo 'Error WORK remove site  : ' . curl_error($ch);
             curl_close($ch);
-            //die;
-            return $result;
+            $system_os = stripos($_SERVER['SystemRoot'], 'WINDOWS');
+            if($system_os !== false) {
+                //iconv( "utf-8", "windows-1251", $result['comment']);
+                //$result['comment'] = mb_convert_encoding($result['comment'], "CP1251", "UTF-8");
+            }
+            $ex['mes'] = $result['comment'];
+            $ex['par'] = $params;
+                BaseService::SaveLogCrossDb($ex,__FUNCTION__);
+            return null;
         }
 
         curl_close($ch);
@@ -59,10 +61,12 @@ class CrossDb extends ActiveRecord
         $error = $res;
 
         if (!$result) {
-            echo $params['host'] . ' ## ' . $params['action'] . '<br>';
-            echo 'Error REQUEST remove site : '  . ' ' . $error;
+            //echo $params['host'] . ' ## ' . $params['action'] . '<br>';
+            //echo 'Error REQUEST remove site : '  . ' ' . $error;
             libxml_clear_errors();
-            die;
+            $ex['mes'] = $error;
+            $ex['par'] = $params;
+            BaseService::SaveLogCrossDb($ex,__FUNCTION__);
             return null;
         }
 
@@ -81,16 +85,16 @@ class CrossDb extends ActiveRecord
         $data['keySoftware'] = 'Cross';
 
         $result = self::getRequestForCross($data);
-        return $result['idSession'];
+        $_SESSION['idSessionCross'] = $result['idSession'];
+
+        return;
     }
 
     public static function sessionClose()
     {
+        if($_SESSION['idSessionCross'] == '') return null;
+
         $tm = CrossDbModel::findOne(1);
-
-        if($_SESSION['idSessionCross'] == '')
-            $_SESSION['idSessionCross'] = self::initCross();
-
         $data['host'] = $tm['host'];
         $data['action'] = 'sessionClose';
         $data['idSession'] = $_SESSION['idSessionCross'];
@@ -112,8 +116,7 @@ class CrossDb extends ActiveRecord
 */
         $tm = CrossDbModel::findOne(1);
 
-        if($_SESSION['idSessionCross'] == '')
-                       $_SESSION['idSessionCross'] = self::initCross();
+        if($_SESSION['idSessionCross'] == '') self::initCross();
 
         $data['host'] = $tm['host'];
         $data['action'] = 'getManufacturers';
@@ -121,8 +124,6 @@ class CrossDb extends ActiveRecord
         if($TreeType != '') $data['TreeType'] = $TreeType;
 
         $result = self::getRequestForCross($data);
-
-        //echo '<pre>'; var_dump($result); die;
         return $result;
 
     }
@@ -131,8 +132,7 @@ class CrossDb extends ActiveRecord
     {
         $tm = CrossDbModel::findOne(1);
 
-        if($_SESSION['idSessionCross'] == '')
-            $_SESSION['idSessionCross'] = self::initCross();
+        if($_SESSION['idSessionCross'] == '') self::initCross();
 
         $data['host'] = $tm['host'];
         $data['action'] = 'getCar';
@@ -140,8 +140,6 @@ class CrossDb extends ActiveRecord
         if($Car != '') $data['Car'] = $Car;
 
         $result = self::getRequestForCross($data);
-
-        //echo '<pre>'; var_dump($result); die;
         return $result;
 
     }
