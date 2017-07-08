@@ -10,10 +10,15 @@ $this->title = 'Главная страница';
 ?>
 <div class="site-index">
 
+    <style>
+        .btn-primary { float: right; width: 100px}
+    </style>
+
     <div>
         <?php $form = ActiveForm::begin(['id' => 'authoriz-form']); ?>
           <?/*=$form->field($search, 'article')->textInput(['autofocus' => true])*/?>
-        <input type="text" id="search_article_main" value=""/>
+        <input type="text" id="search_article_main" value="" class="form-control"
+               style="display:inline-flex; width: 85%;"placeholder="Введите артикул"/>
           <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
         <?php ActiveForm::end(); ?>
     </div>
