@@ -24,8 +24,11 @@ class AjaxController extends Controller
 
         $params = Yii::$app->request->get();
         $all_brand = CrossDb::getManufacturers($params['type']);
+        //echo '<pre>'; var_dump($all_brand); die;
         if(isset($all_brand['data'])){
             foreach($all_brand['data'] as $item){
+                if((int)$item['SupplerID'] > 0) $item['SupplerID'] = '1';
+                $item['Description'] = preg_replace("/([^\w]|_)/u", "", $item['Description']);
                 $sql = "INSERT INTO cars(
                        CarId,
                        Description,
@@ -60,6 +63,27 @@ class AjaxController extends Controller
                 $res = Yii::$app->db->createCommand($sql)->execute();
             }
         }
+
+        return $this->redirect($_SERVER['HTTP_REFERER']); //
+
+    }
+
+    function actionDeleteLoadCar(){
+        $mas = [
+            '0' => 'SupplerID',//запчастей, по умолчанию;
+            '1' => 'IsPassengerCar',//легковых авто
+            '2' => 'IsCommercialVehicle',//грузовых авто
+            '3' => 'IsEngine',//двигателей
+            '4' => 'IsMotorbike',//мотоциклов
+            '5' => 'IsAxle',//осей
+        ];
+
+        $params = Yii::$app->request->get();
+
+        $sql = "DELETE FROM cars
+                WHERE " . $mas[$params['type']] . "=1;";
+//echo '<pre>'.$sql; die;
+        $return = Yii::$app->db->createCommand($sql)->execute();
 
         return $this->redirect($_SERVER['HTTP_REFERER']); //
 

@@ -23,7 +23,7 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Легковые авто</h3>
                 <?php
-                $no_photo = '/img/brand/IsPassengerCar/auto_icon.png';
+                $no_photo = 'img/brand/IsPassengerCar/auto_icon.png';
                 foreach($IsPassengerCar as $item) {
                     if($item->SupplerID == 1) $item->Description .= ' / запчасти';
                     if($item->IsEngine  == 1) $item->Description .= ' / двигатели';
@@ -40,7 +40,7 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Грузовые авто</h3>
                 <?php
-                $no_photo = '/img/brand/IsCommercialVehicle/truck_icon.png';
+                $no_photo = 'img/brand/IsCommercialVehicle/truck_icon.png';
                 foreach($IsCommercialVehicle as $item) {
                     if($item->SupplerID) $item->Description .= ' / запчасти';
                     if($item->IsEngine) $item->Description .= ' / двигатели';
@@ -57,7 +57,7 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Мотоциклы</h3>
                 <?php
-                $no_photo = '/img/brand/IsCommercialVehicle/truck_icon.png';
+                $no_photo = 'img/brand/IsMotorbike/bike.ico';
                 foreach($IsMotorbike as $item) {
                     if($item->SupplerID) $item->Description .= ' / запчасти';
                     if($item->IsEngine) $item->Description .= ' / двигатели';
@@ -74,7 +74,7 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Запчасти</h3>
                 <?php
-                $no_photo = '/img/brand/IsCommercialVehicle/truck_icon.png';
+                $no_photo = 'img/brand/SupplerID/zp.ico';
                 foreach($SupplerID as $item) {
                     if($item->SupplerID) $item->Description .= ' / запчасти';
                     if($item->IsEngine) $item->Description .= ' / двигатели';

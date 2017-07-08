@@ -95,13 +95,20 @@ class SiteController extends Controller
             ->andWhere(['visible' => 1])
             ->orderBy('Description')
             ->all();
+        $SupplerID = $cars->find()
+            //->select(['id', 'Title'])
+            ->andWhere(['SupplerID' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+        $IsMotorbike = $cars->find()
+            //->select(['id', 'Title'])
+            ->andWhere(['IsMotorbike' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
         //$result = CrossDb::getManufacturers(1);
         //$result = CrossDb::getCar();
-
-        $SupplerID = [];
-        $IsMotorbike = [];
-        $search = new stdClass;
-        $search->article = 'eree';
 
         return $this->render('index',[
             'session' => $this->base,
@@ -109,7 +116,6 @@ class SiteController extends Controller
             'IsCommercialVehicle' => $IsCommercialVehicle,
             'SupplerID' => $SupplerID,
             'IsMotorbike' => $IsMotorbike,
-            'search' => $search,
         ]);
     }
 

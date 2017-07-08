@@ -56,6 +56,11 @@ $this->beginPage();
                     ['label' => 'Управление адресами', 'url' => ['/admin/mail-setting/group-index']],
                     ['label' => 'Обновить легковые авто', 'url' => ['/admin/ajax/load-car','type'=> '1']],
                     ['label' => 'Обновить грузовые авто', 'url' => ['/admin/ajax/load-car','type'=> '2']],
+                    ['label' => 'Обновить мтоциклы', 'url' => ['/admin/ajax/load-car','type'=> '4']],
+                    ['label' => 'Обновить запчасти', 'url' => ['/admin/ajax/load-car','type'=> '0']],
+
+                    ['label' => 'Удалить запчасти', 'url' => ['/admin/ajax/delete-load-car','type'=> '0']],
+                    ['label' => 'Удалить мотоциклы', 'url' => ['/admin/ajax/delete-load-car','type'=> '4']],
                 ],
             ],
         ],

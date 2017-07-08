@@ -53,11 +53,11 @@ class CarsModel extends ActiveRecord
             'CarId' => 'Код',
             'Description' => 'Наименование',
             'synonium' => 'Синоним',
-            'SupplerID' => 'Производитель запчастей',
-            'CanBeDisplayed' => 'Это оригинальный производитель',
-            'IsPassengerCar' => 'Производитель легковых авто',
-            'IsCommercialVehicle' => 'Производитель грузовых авто',
-            'IsMotorbike' => 'Производитель мотоциклов',
+            'SupplerID' => 'Запчасти',
+            'CanBeDisplayed' => 'Оригинальный производитель',
+            'IsPassengerCar' => 'Легковые авто',
+            'IsCommercialVehicle' => 'Грузовые авто',
+            'IsMotorbike' => 'Мотоциклы',
             'IsEngine' => 'Производитель двигателей',
             'IsAxle' => 'Производитель осей (мостов)',
             'visible' => 'Показывать',
@@ -104,7 +104,8 @@ class CarsModel extends ActiveRecord
             ->andFilterWhere(['like', 'IsMotorbike', $this->IsMotorbike])
             ->andFilterWhere(['like', 'IsEngine', $this->IsEngine])
             ->andFilterWhere(['like', 'IsAxle', $this->IsAxle])
-            ->andFilterWhere(['like', 'visible', $this->visible]);
+            ->andFilterWhere(['like', 'visible', $this->visible])
+            ->orderBy('Description');
         return $dataProvider;
     }
 }

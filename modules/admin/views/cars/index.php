@@ -42,6 +42,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'IsMotorbike',
+                'format' => 'raw',
+                'filter' => [1 => 'Да',0 => 'Нет'],
+                'headerOptions' => ['width' => '50'],
+                'value' => function($model){
+                    return  Html::checkbox('', $model->IsMotorbike, ['disabled' => true]);
+                }
+            ],
+            [
+                'attribute' => 'SupplerID',
+                'format' => 'raw',
+                'filter' => [1 => 'Да',0 => 'Нет'],
+                'headerOptions' => ['width' => '50'],
+                'value' => function($model){
+                    return  Html::checkbox('', $model->SupplerID, ['disabled' => true]);
+                }
+            ],
+            [
                 'attribute' => 'visible',
                 'format' => 'raw',
                 'filter' => [1 => 'Да',0 => 'Нет'],
