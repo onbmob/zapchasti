@@ -24,13 +24,15 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Легковые авто</h3>
                 <?php
-                $no_photo = 'img/brand/IsPassengerCar/auto_icon.png';
                 foreach($IsPassengerCar as $item) {
+                    if(is_file('../web/img/brand/IsPassengerCar/'.$item->synonium.'.png'))
+                          $photo = 'img/brand/IsPassengerCar/'.$item->synonium.'.png';
+                    else $photo = 'img/brand/IsPassengerCar/auto_icon.png';
                     if($item->SupplerID == 1) $item->Description .= ' / запчасти';
                     if($item->IsEngine  == 1) $item->Description .= ' / двигатели';
                     ?>
                     <div style="margin: 8px">
-                        <img width="30" src="<?= $no_photo ?>" alt="">
+                        <img width="30" src="<?= $photo ?>" alt="">
                        <span  style="margin-left: 10px">
                            <?= $item->Description ?>
                        </span>
@@ -41,13 +43,15 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Грузовые авто</h3>
                 <?php
-                $no_photo = 'img/brand/IsCommercialVehicle/truck_icon.png';
                 foreach($IsCommercialVehicle as $item) {
+                    if(is_file('../web/img/brand/IsPassengerCar/'.$item->synonium.'.png'))
+                        $photo = 'img/brand/IsPassengerCar/'.$item->synonium.'.png';
+                    else $photo = 'img/brand/IsPassengerCar/auto_icon.png';
                     if($item->SupplerID) $item->Description .= ' / запчасти';
                     if($item->IsEngine) $item->Description .= ' / двигатели';
                     ?>
                     <div style="margin: 8px">
-                        <img width="30" src="<?= $no_photo ?>" alt="">
+                        <img width="30" src="<?= $photo ?>" alt="">
                        <span  style="margin-left: 10px">
                            <?= $item->Description ?>
                        </span>
