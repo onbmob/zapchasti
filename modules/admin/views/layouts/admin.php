@@ -54,11 +54,12 @@ $this->beginPage();
                     ['label' => 'Настройки БД Кроссов', 'url' => ['/admin/cross-db']],
                     ['label' => 'Настройки почты', 'url' => ['/admin/mail-setting']],
                     ['label' => 'Управление адресами', 'url' => ['/admin/mail-setting/group-index']],
+                    ['label' => '----------------------',],
                     ['label' => 'Обновить легковые авто', 'url' => ['/admin/ajax/load-car','type'=> '1']],
                     ['label' => 'Обновить грузовые авто', 'url' => ['/admin/ajax/load-car','type'=> '2']],
                     ['label' => 'Обновить мтоциклы', 'url' => ['/admin/ajax/load-car','type'=> '4']],
                     ['label' => 'Обновить запчасти', 'url' => ['/admin/ajax/load-car','type'=> '0']],
-
+                    ['label' => '----------------------',],
                     ['label' => 'Удалить запчасти', 'url' => ['/admin/ajax/delete-load-car','type'=> '0']],
                     ['label' => 'Удалить мотоциклы', 'url' => ['/admin/ajax/delete-load-car','type'=> '4']],
                 ],

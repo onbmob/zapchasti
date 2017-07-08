@@ -13,6 +13,7 @@ $this->title = 'Главная страница';
     <div>
         <?php $form = ActiveForm::begin(['id' => 'authoriz-form']); ?>
           <?/*=$form->field($search, 'article')->textInput(['autofocus' => true])*/?>
+        <input type="text" id="search_article_main" value=""/>
           <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
         <?php ActiveForm::end(); ?>
     </div>

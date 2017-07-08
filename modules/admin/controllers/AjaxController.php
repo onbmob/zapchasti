@@ -28,7 +28,10 @@ class AjaxController extends Controller
         if(isset($all_brand['data'])){
             foreach($all_brand['data'] as $item){
                 if((int)$item['SupplerID'] > 0) $item['SupplerID'] = '1';
-                $item['Description'] = preg_replace("/([^\w]|_)/u", "", $item['Description']);
+
+                $item['Description'] = preg_replace("/([^\w\s]|_)/u", "", $item['Description']);
+                $synonium = preg_replace("/([^\w]|_)/u", "", $item['Description']);
+
                 $sql = "INSERT INTO cars(
                        CarId,
                        Description,
@@ -43,7 +46,7 @@ class AjaxController extends Controller
                     VALUES(
                     '" . $item['ID'] . "',
                     '" . $item['Description'] . "',
-                    '" . $item['Description'] . "',
+                    '" . $synonium . "',
                     '" . $item['SupplerID'] . "',
                     '" . $item['IsPassengerCar'] . "',
                     '" . $item['IsCommercialVehicle'] . "',
