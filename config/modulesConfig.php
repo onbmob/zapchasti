@@ -1,20 +1,25 @@
 <?php
 return [
 
-    'pages' => [
-        'class' => 'app\modules\pages\module',
+    'search' => [
+        'class' => 'app\modules\search\module',
     ],
+
     'admin' => [
         'class' => 'app\modules\admin\module',
         'layoutPath' => '../modules/admin/views/layouts',
         'layout' => 'admin'
     ],
+
     'treemanager' => [
         'class' => 'kartik\tree\Module',
     ],
 
 
     /*
+    'pages' => [
+        'class' => 'app\modules\pages\module',
+    ],
         'catalog' => [
             'class' => 'app\modules\catalog\module',
         ],

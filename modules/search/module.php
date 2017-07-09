@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\pages;
+namespace app\modules\search;
 
 class module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\pages\controllers';
+    public $controllerNamespace = 'app\modules\search\controllers';
 
     public function init()
     {

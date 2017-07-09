@@ -128,16 +128,48 @@ class CrossDb extends ActiveRecord
 
     }
 
-    public static function getCar($Car='')
+    public static function getModelsManufacturer($id)
     {
         $tm = CrossDbModel::findOne(1);
 
         if($_SESSION['idSessionCross'] == '') self::initCross();
 
         $data['host'] = $tm['host'];
-        $data['action'] = 'getCar';
+        $data['action'] = 'getModelsManufacturer';
         $data['idSession'] = $_SESSION['idSessionCross'];
-        if($Car != '') $data['Car'] = $Car;
+        $data['ManufacturerID'] = $id;
+
+        $result = self::getRequestForCross($data);
+        return $result;
+
+    }
+
+    public static function getArticlesCar($id)
+    {
+        $tm = CrossDbModel::findOne(1);
+
+        if($_SESSION['idSessionCross'] == '') self::initCross();
+
+        $data['host'] = $tm['host'];
+        $data['action'] = 'getArticlesCar';
+        $data['idSession'] = $_SESSION['idSessionCross'];
+        $data['CarID'] = $id;
+
+        $result = self::getRequestForCross($data);
+        return $result;
+
+    }
+
+    public static function getArticlesSearch($article)
+    {
+        $tm = CrossDbModel::findOne(1);
+
+        if($_SESSION['idSessionCross'] == '') self::initCross();
+
+        $data['host'] = $tm['host'];
+        $data['action'] = 'getArticlesSearch';
+        $data['idSession'] = $_SESSION['idSessionCross'];
+        $data['FoundString'] = $article;
 
         $result = self::getRequestForCross($data);
         return $result;

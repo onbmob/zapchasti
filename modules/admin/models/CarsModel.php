@@ -79,6 +79,38 @@ class CarsModel extends ActiveRecord
      *
      * @return ActiveDataProvider
      */
+    public function getAllTypeBrandOnMain()
+    {
+        $result = [];
+        $result['IsPassengerCar'] = self::find()
+            //->select(['id', 'Title'])
+            ->andWhere(['IsPassengerCar' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+        $result['IsCommercialVehicle'] = self::find()
+            //->select(['id', 'Title'])
+            ->andWhere(['IsCommercialVehicle' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+        $result['SupplerID'] = self::find()
+            //->select(['id', 'Title'])
+            ->andWhere(['SupplerID' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+        $result['IsMotorbike'] = self::find()
+            //->select(['id', 'Title'])
+            ->andWhere(['IsMotorbike' => 1])
+            ->andWhere(['visible' => 1])
+            ->orderBy('Description')
+            ->all();
+
+        return $result;
+
+    }
+
     public function search($params)
     {
         $query = CarsModel::find();

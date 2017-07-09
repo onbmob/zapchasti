@@ -31,6 +31,7 @@ AppAsset::register($this);
 
     <!------------------------------------------------->
     <div class="container">
+    <?= $this->render('block/search-panel.php'); ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

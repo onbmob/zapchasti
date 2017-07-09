@@ -83,39 +83,11 @@ class SiteController extends Controller
     {
 
         $cars = new CarsModel();
-        $IsPassengerCar = $cars->find()
-            //->select(['id', 'Title'])
-            ->andWhere(['IsPassengerCar' => 1])
-            ->andWhere(['visible' => 1])
-            ->orderBy('Description')
-            ->all();
-        $IsCommercialVehicle = $cars->find()
-            //->select(['id', 'Title'])
-            ->andWhere(['IsCommercialVehicle' => 1])
-            ->andWhere(['visible' => 1])
-            ->orderBy('Description')
-            ->all();
-        $SupplerID = $cars->find()
-            //->select(['id', 'Title'])
-            ->andWhere(['SupplerID' => 1])
-            ->andWhere(['visible' => 1])
-            ->orderBy('Description')
-            ->all();
-        $IsMotorbike = $cars->find()
-            //->select(['id', 'Title'])
-            ->andWhere(['IsMotorbike' => 1])
-            ->andWhere(['visible' => 1])
-            ->orderBy('Description')
-            ->all();
-        //$result = CrossDb::getManufacturers(1);
-        //$result = CrossDb::getCar();
+        $brands = $cars->getAllTypeBrandOnMain();
 
         return $this->render('index',[
             'session' => $this->base,
-            'IsPassengerCar' => $IsPassengerCar,
-            'IsCommercialVehicle' => $IsCommercialVehicle,
-            'SupplerID' => $SupplerID,
-            'IsMotorbike' => $IsMotorbike,
+            'brands' => $brands,
         ]);
     }
 

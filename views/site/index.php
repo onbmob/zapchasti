@@ -1,27 +1,9 @@
 <?php
 
-/* @var $this yii\web\View */
-
-use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Html;
-
 $this->title = 'Главная страница';
-//echo '<pre>'; var_dump($search); die;
+//echo '<pre>'; var_dump($brands); die;
 ?>
 <div class="site-index">
-
-    <style>
-        .btn-primary { float: right; width: 100px}
-    </style>
-
-    <div>
-        <?php $form = ActiveForm::begin(['id' => 'authoriz-form']); ?>
-          <?/*=$form->field($search, 'article')->textInput(['autofocus' => true])*/?>
-        <input type="text" id="search_article_main" value="" class="form-control"
-               style="display:inline-flex; width: 85%;"placeholder="Введите артикул"/>
-          <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-        <?php ActiveForm::end(); ?>
-    </div>
 
     <div class="body-content">
 
@@ -29,74 +11,94 @@ $this->title = 'Главная страница';
             <div class="col-lg-3">
                 <h3>Легковые авто</h3>
                 <?php
-                foreach($IsPassengerCar as $item) {
+                foreach($brands['IsPassengerCar'] as $item) {
                     if(is_file('../web/img/brand/IsPassengerCar/'.$item->synonium.'.png'))
                           $photo = 'img/brand/IsPassengerCar/'.$item->synonium.'.png';
                     else $photo = 'img/brand/IsPassengerCar/auto_icon.png';
-                    if($item->SupplerID == 1) $item->Description .= ' / запчасти';
-                    if($item->IsEngine  == 1) $item->Description .= ' / двигатели';
+                    $Description = $item->Description;
+                    if($item->SupplerID == 1) $Description .= ' / запчасти';
+                    if($item->IsEngine  == 1) $Description .= ' / двигатели';
                     ?>
                     <div style="margin: 8px">
                         <img width="30" src="<?= $photo ?>" alt="">
                        <span  style="margin-left: 10px">
-                           <?= $item->Description ?>
+                           <a href="/index.php?r=search/default/get-models-manufacturer&id=<?=$item->CarId?>&brand=<?=$item->Description?>">
+                               <?= $Description ?>
+                           </a>
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
+                <p><a class="btn btn-default" href="/index.php?r=search/default/search-type-brand&type=1">
+                        Показать все &raquo;
+                </a></p>
             </div>
             <div class="col-lg-3">
                 <h3>Грузовые авто</h3>
                 <?php
-                foreach($IsCommercialVehicle as $item) {
+                foreach($brands['IsCommercialVehicle'] as $item) {
                     if(is_file('../web/img/brand/IsPassengerCar/'.$item->synonium.'.png'))
                         $photo = 'img/brand/IsPassengerCar/'.$item->synonium.'.png';
                     else $photo = 'img/brand/IsPassengerCar/auto_icon.png';
-                    if($item->SupplerID) $item->Description .= ' / запчасти';
-                    if($item->IsEngine) $item->Description .= ' / двигатели';
+                    $Description = $item->Description;
+                    if($item->SupplerID == 1) $Description .= ' / запчасти';
+                    if($item->IsEngine  == 1) $Description .= ' / двигатели';
                     ?>
                     <div style="margin: 8px">
                         <img width="30" src="<?= $photo ?>" alt="">
                        <span  style="margin-left: 10px">
-                           <?= $item->Description ?>
+                           <a href="/index.php?r=search/default/get-models-manufacturer&id=<?=$item->CarId?>&brand=<?=$item->Description?>">
+                               <?= $Description ?>
+                           </a>
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
+                <p><a class="btn btn-default" href="/index.php?r=search/default/search-type-brand&type=2">
+                        Показать все &raquo;
+                    </a></p>
             </div>
             <div class="col-lg-3">
                 <h3>Мотоциклы</h3>
                 <?php
                 $no_photo = 'img/brand/IsMotorbike/bike.ico';
-                foreach($IsMotorbike as $item) {
-                    if($item->SupplerID) $item->Description .= ' / запчасти';
-                    if($item->IsEngine) $item->Description .= ' / двигатели';
+                foreach($brands['IsMotorbike'] as $item) {
+                    $Description = $item->Description;
+                    if($item->SupplerID == 1) $Description .= ' / запчасти';
+                    if($item->IsEngine  == 1) $Description .= ' / двигатели';
                     ?>
                     <div style="margin: 8px">
-                        <img width="30" src="<?= $no_photo ?>" alt="">
+                        <img width="30" src="<?= $photo ?>" alt="">
                        <span  style="margin-left: 10px">
-                           <?= $item->Description ?>
+                           <a href="/index.php?r=search/default/get-models-manufacturer&id=<?=$item->CarId?>&brand=<?=$item->Description?>">
+                               <?= $Description ?>
+                           </a>
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
+                <p><a class="btn btn-default" href="/index.php?r=search/default/search-type-brand&type=4">
+                        Показать все &raquo;
+                    </a></p>
             </div>
             <div class="col-lg-3">
                 <h3>Запчасти</h3>
                 <?php
                 $no_photo = 'img/brand/SupplerID/zp.ico';
-                foreach($SupplerID as $item) {
-                    if($item->SupplerID) $item->Description .= ' / запчасти';
-                    if($item->IsEngine) $item->Description .= ' / двигатели';
+                foreach($brands['SupplerID'] as $item) {
+                    $Description = $item->Description;
+                    if($item->SupplerID == 1) $Description .= ' / запчасти';
+                    if($item->IsEngine  == 1) $Description .= ' / двигатели';
                     ?>
                     <div style="margin: 8px">
-                        <img width="30" src="<?= $no_photo ?>" alt="">
+                        <img width="30" src="<?= $photo ?>" alt="">
                        <span  style="margin-left: 10px">
-                           <?= $item->Description ?>
+                           <a href="/index.php?r=search/default/get-models-manufacturer&id=<?=$item->CarId?>&brand=<?=$item->Description?>">
+                               <?= $Description ?>
+                           </a>
                        </span>
                     </div>
                 <?php } ?>
-                <p><a class="btn btn-default" href="#">Показать все &raquo;</a></p>
+                <p><a class="btn btn-default" href="/index.php?r=search/default/search-type-brand&type=0">
+                        Показать все &raquo;
+                    </a></p>
             </div>
         </div>
 
