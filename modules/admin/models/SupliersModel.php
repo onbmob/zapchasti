@@ -57,6 +57,9 @@ class SupliersModel extends ActiveRecord
 
             [['role'], 'string', 'max' => 10],
 
+            ['supl_code', 'string', 'max' => 30, 'min' => 4],
+            ['supl_code', 'unique', 'targetClass' => self::className(), 'message' => 'Такой код поставщика уже существует.'],
+
             ['supl_name', 'string', 'max' => 30, 'min' => 4],
             ['user_name', 'string', 'max' => 255, 'min' => 4],
 
@@ -100,6 +103,7 @@ class SupliersModel extends ActiveRecord
             'pwdRepeat' => 'Подтверждение пароля',
             'pwdNew' => 'Новый пароль (если нужно сменить)',
             'role' => 'Тип',
+            'supl_code' => 'Код поставщика',
             'supl_name' => 'Поставщик',
             'region' => 'Регион',
             'user_name' => 'Ответственное лицо',

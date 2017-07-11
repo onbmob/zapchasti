@@ -1,6 +1,15 @@
 $(document).ready(function(){
 
+
 });
+
+var LoadPriceFromFile = function(event) {
+    //window.localStorage.setItem("basket", 1);
+    /*setTimeout(function () {
+        show_error_window('Загрузка товаров из Excel','green','15000');
+    }, 100);*/
+    $('#form_price').submit();
+};
 
 var loadFile = function(event,idoutput) {
     var reader = new FileReader();

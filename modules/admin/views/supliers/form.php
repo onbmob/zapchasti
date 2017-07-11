@@ -23,6 +23,8 @@ $mas[0] = '-'; $regions = $mas + $regions;
 
     <?= $form->field($model, 'supl_name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'supl_code')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'role')->dropDownList(['user'=>'Пользователь','admin'=>'Администратор']) ?>

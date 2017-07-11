@@ -31,6 +31,7 @@ $region = new \app\modules\admin\models\RegionModel();
         'attributes' => [
             'id',
             'supl_name',
+            'supl_code',
             'login',
             'role',
             'activity',

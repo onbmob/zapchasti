@@ -36,7 +36,15 @@ $this->beginPage();
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Пользователи', 'url' => ['/admin/client']],
-            ['label' => 'Поставщики', 'url' => ['/admin/supliers']],
+            //['label' => 'Поставщики', 'url' => ['/admin/supliers']],
+            [
+                'label' => 'Поставщики',
+                'url' => ['#'],
+                'items' => [
+                    ['label' => 'Поставщики', 'url' => ['/admin/supliers']],
+                    ['label' => 'Шалоны загрузки прайсов', 'url' => ['/admin/loadprice']],
+                ],
+            ],
             [
                 'label' => 'Настройки сайта',
                 'url' => ['#'],

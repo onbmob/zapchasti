@@ -155,6 +155,7 @@ class CrossDb extends ActiveRecord
         $data['idSession'] = $_SESSION['idSessionCross'];
         $data['CarID'] = $id;
 
+
         $result = self::getRequestForCross($data);
         return $result;
 

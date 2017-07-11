@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\ClientModel */
 
-$this->title = 'Создание Поставщика ';
-$this->params['breadcrumbs'][] = ['label' => 'Поставщик', 'url' => ['index']];
+$this->title = 'Создание шаблона прайса';
+$this->params['breadcrumbs'][] = ['label' => 'Шаблон', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Создание';
 ?>
 

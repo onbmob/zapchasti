@@ -58,7 +58,7 @@ class ClientModel extends ActiveRecord
             [['role'], 'string', 'max' => 10],
 
             ['user_code', 'string', 'max' => 30, 'min' => 4],
-//            ['user_code', 'unique', 'targetClass' => self::className(), 'message' => 'Такой код пользователя уже существует.'],
+            ['user_code', 'unique', 'targetClass' => self::className(), 'message' => 'Такой код пользователя уже существует.'],
 // может быть не уникальным
             ['user_name', 'string', 'max' => 255, 'min' => 4],
 

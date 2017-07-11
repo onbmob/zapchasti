@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProviderModel,
         'filterModel' => $model,
         'columns' => [
+            'supl_code',
             'supl_name',
             'user_name',
             'login',
