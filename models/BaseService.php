@@ -65,13 +65,32 @@ class BaseService {
     }
 
     public static function SaveLogCrossDb($message,$function_name)
+
     {
         Yii::error(["Ошибка в функции ".$function_name,$message], "cross_db");
+    }
+
+    public static function OnlyLettersDigitsBspSymb($str)
+    {
+        //return preg_replace("/([^\w\s]|_)/u", "", $str);
+        $mas = ["'","\"","\r","\n"];
+        $str = str_replace($mas,"",$str);
+        return $str;
+    }
+
+    public static function OnlyLettersDigitsBsp($str)
+    {
+        return preg_replace("/([^\w\s]|_)/u", "", $str);
     }
 
     public static function OnlyLettersAndDigits($str)
     {
         return preg_replace("/([^\w]|_)/u", "", $str);
+    }
+
+    public static function OnlyDigits($str)
+    {
+        return preg_replace("/([^\d]|_)/u", "", $str);
     }
 
     public static function ClearFloat($str)

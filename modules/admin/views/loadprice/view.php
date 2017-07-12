@@ -63,10 +63,6 @@ $price_col = LoadpriceModel::getColums();
             'type',
             // ОПТИМИЗИРОВАТЬ !!!!!!!
             [
-                'attribute' => 'col_0', 'format' => 'raw', 'label' => '0 колонка прайса',
-                'value'=> $price_col[$model->col_0]
-            ],
-            [
                 'attribute' => 'col_1', 'format' => 'raw', 'label' => '1 колонка прайса',
                 'value'=> $price_col[$model->col_1]
             ],
@@ -109,6 +105,10 @@ $price_col = LoadpriceModel::getColums();
             [
                 'attribute' => 'col_11', 'format' => 'raw', 'label' => '11 колонка прайса',
                 'value'=> $price_col[$model->col_11]
+            ],
+            [
+                'attribute' => 'col_12', 'format' => 'raw', 'label' => '12 колонка прайса',
+                'value'=> $price_col[$model->col_12]
             ],
         ],
     ]) ?>

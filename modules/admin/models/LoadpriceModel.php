@@ -36,7 +36,6 @@ class LoadpriceModel extends ActiveRecord
             ['supliers', 'safe'],
             ['descript', 'safe'],
             ['type', 'safe'],
-            ['col_0', 'safe'],
             ['col_1', 'safe'],
             ['col_2', 'safe'],
             ['col_3', 'safe'],
@@ -48,6 +47,7 @@ class LoadpriceModel extends ActiveRecord
             ['col_9', 'safe'],
             ['col_10', 'safe'],
             ['col_11', 'safe'],
+            ['col_12', 'safe'],
         ];
     }
 
@@ -58,7 +58,6 @@ class LoadpriceModel extends ActiveRecord
             'supliers' => 'Поставщик',
             'descript' => 'Описание шаблона загрузки прайса',
             'type' => 'Тип файла прайса',
-            'col_0' => '0 колонку прайса => в укзанное поле БД',
             'col_1' => '1 колонку прайса => в укзанное поле БД',
             'col_2' => '2 колонку прайса => в укзанное поле БД',
             'col_3' => '3 колонку прайса => в укзанное поле БД',
@@ -70,6 +69,7 @@ class LoadpriceModel extends ActiveRecord
             'col_9' => '9 колонку прайса => в укзанное поле БД',
             'col_10' => '10 колонку прайса => в укзанное поле БД',
             'col_11' => '11 колонку прайса => в укзанное поле БД',
+            'col_12' => '12 колонку прайса => в укзанное поле БД',
         ];
     }
 

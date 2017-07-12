@@ -2,8 +2,10 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\BaseService;
 use app\modules\admin\models\FilesModel;
 use app\modules\admin\models\LoadpriceModel;
+use app\modules\admin\models\SupliersModel;
 use yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -92,37 +94,132 @@ class LoadpriceController extends Controller
 
     function actionLoadPriceFromFile(){
 
+        $excel_col = [
+            'A' => 'col_1',
+            'B' => 'col_2',
+            'C' => 'col_3',
+            'D' => 'col_4',
+            'E' => 'col_5',
+            'F' => 'col_6',
+            'G' => 'col_7',
+            'H' => 'col_8',
+            'I' => 'col_9',
+            'J' => 'col_10',
+            'K' => 'col_11',
+            'L' => 'col_12',
+            //'M' => 'col_13',
+            //'N' => 'col_14',
+        ];
+
         $model = new FilesModel();
 
+        $all_position = 0; $error_mas = [];
+        $data_st = time();
+
         if (Yii::$app->request->isPost) {
+            $par = Yii::$app->request->post();
+            $col = LoadpriceModel::find()->asArray()->where(['id' => $par["LoadpriceModel"]['id']])->one();
+            $supl = SupliersModel::find()->asArray()->where(['id' => $col['supliers']])->one();
+
+            set_time_limit(0);
 
             $model->file = UploadedFile::getInstance($model, 'file');
 
             if ($model->file && $model->validate()) {
-                //$model->file->saveAs('images/'.$params['id'].'/' . $model->file->baseName . '.' . $model->file->extension);
-                //$model->file->saveAs('images/ffffffffforbob' . $model->file->baseName . '.' . $model->file->extension);
                 $data = \moonland\phpexcel\Excel::import( $model->file->tempName, [
                     'setFirstRecordAsKeys' => false, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
                     // 'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
                     //'getOnlySheet' => 'sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
                 ]);
-                /*
-                                $data = \moonland\phpexcel\Excel::widget([
-                                    'mode' => 'import',
-                                    'fileName' => $fileName,
-                                    'setFirstRecordAsKeys' => true, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
-                                    'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
-                                    'getOnlySheet' => 'sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
-                                ]);
-                */
+                //echo '<pre>'; var_dump($data); die;
+                $num_str = 0;
+                foreach($data as $pos){ $num_str++;
+                    $error = false; $masBD = [];
+                    $column_str = $value_str = '';
+                    foreach($pos as $key => $item){
+                        $pole = $col[$excel_col[$key]];
+                        if($pole == '-' ) continue;
+                        if($pole == '_price') {
+                            $price = BaseService::ClearFloat($item);
+                            if (BaseService::ClearFloat($item) > 0 ){
+                                $item = $price;
+                            } else {//Неверная или нулевая цена или кол-во
+                                $error = true;
+                                continue;
+                            }
+                        }
+                        if($pole == '_count') {
+                            if(trim($item) == '*') $item = '100000';
+                            else $item = BaseService::OnlyDigits($item);
+                            if ((int)$item > 0 ){
+                            } else {//Неверная или нулевая цена или кол-во
+                                $error = true;
+                                continue;
+                            }
+                        }
+                        if($pole == '_article') {
+                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
+                        }
+                        if($pole == '_name') {
+                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
+                        }
+                        if($pole == '_brand') {
+                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
+                        }
+                        if($pole == '_applicability') {
+                            $item = BaseService::OnlyLettersDigitsBspSymb($item);//Боремся с кавычками (') и другой дрянью
+                        }
 
-               // foreach($data as $item){
-               // }
+                        $masBD[$pole] = $item;
+                        $column_str .= $pole.", ";
+                        $value_str .= "'".$item."', ";
+                    }
 
+                    if( $error
+                        || count($masBD) == 0
+                        || !isset($masBD['_count'])
+                        || !isset($masBD['_price'])
+                        || !isset($masBD['_article'])
+                    ) { $pos['num_str'] = $num_str; $error_mas[] = $pos; continue;}
+
+                    if(!isset($masBD['_brand'])) $masBD['_brand'] = '';
+                    $masBD['supl_code'] = $supl['supl_code'];
+                    $masBD['supliers'] = $supl['id'];
+                    $masBD['brand_clean'] = BaseService::OnlyLettersAndDigits($masBD['_brand']);
+                    $masBD['article_clean'] = BaseService::OnlyLettersAndDigits($masBD['_article']);
+                    $hashcode = md5($masBD['supliers'].$masBD['_brand'].$masBD['_article'].$masBD['_price']);
+                    //Пишем в БД
+                    $column_str .= "brand_clean,
+                                    article_clean,
+                                    supl_code,
+                                    supliers,
+                                    hashcode";
+                    $value_str .= "'".$masBD['brand_clean']."',".
+                                  "'".$masBD['article_clean']."',".
+                                  "'".$masBD['supl_code']."',".
+                                  "'".$masBD['supliers']."',"."'".
+                                  $hashcode."'";
+
+                    $sql = "INSERT INTO price(".$column_str.")
+                    VALUES(".$value_str.")
+                    ON DUPLICATE KEY UPDATE
+                    _price = '" . $masBD['_price'] . "',
+                    _count = '" . $masBD['_count'] . "'";
+
+                    $res = Yii::$app->db->createCommand($sql)->execute();
+                    $all_position++;
+                    //if($all_position > 1000) break;
+                }
             }
         }
 
-        return $this->redirect(Yii::$app->request->referrer);
+        $data_fn = time();
+        return $this->render('load-price-from-file', [
+            'error_mas' => $error_mas,
+            'all_position' => $all_position,
+            'data_st' => $data_st,
+            'data_fn' => $data_fn,
+        ]);
 
     }
 
