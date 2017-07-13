@@ -113,10 +113,11 @@ class LoadpriceController extends Controller
 
         $model = new FilesModel();
 
-        $all_position = 0; $error_mas = [];
+        $error_mas = [];
         $data_st = time();
-
+        $all_rows = 'no_request';
         if (Yii::$app->request->isPost) {
+            $all_rows = 'no_model';
             $par = Yii::$app->request->post();
             $col = LoadpriceModel::find()->asArray()->where(['id' => $par["LoadpriceModel"]['id']])->one();
             $supl = SupliersModel::find()->asArray()->where(['id' => $col['supliers']])->one();
@@ -126,13 +127,21 @@ class LoadpriceController extends Controller
             $model->file = UploadedFile::getInstance($model, 'file');
 
             if ($model->file && $model->validate()) {
+                $all_rows = '----';
                 $data = \moonland\phpexcel\Excel::import( $model->file->tempName, [
                     'setFirstRecordAsKeys' => false, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.
                     // 'setIndexSheetByName' => true, // set this if your excel data with multiple worksheet, the index of array will be set with the sheet name. If this not set, the index will use numeric.
                     //'getOnlySheet' => 'sheet1', // you can set this property if you want to get the specified sheet from the excel data with multiple worksheet.
                 ]);
-                //echo '<pre>'; var_dump($data); die;
+
+                ///$sql = "DELETE FROM price WHERE supliers='".$col['supliers']."';";
+                //$res = Yii::$app->db->createCommand($sql)->execute();
+
+                $all_rows = count($data);
+                $duplicate = '';
+                $gl_values = '';
                 $num_str = 0;
+                $kol_rows = 0;
                 foreach($data as $pos){ $num_str++;
                     $error = false; $masBD = [];
                     $column_str = $value_str = '';
@@ -180,15 +189,27 @@ class LoadpriceController extends Controller
                         || !isset($masBD['_count'])
                         || !isset($masBD['_price'])
                         || !isset($masBD['_article'])
-                    ) { $pos['num_str'] = $num_str; $error_mas[] = $pos; continue;}
+                    ) {
+                        $pos['num_str'] = $num_str.' / цена или кол = 0';
+                        $error_mas[] = $pos;
+                        continue;
+                    }
 
                     if(!isset($masBD['_brand'])) $masBD['_brand'] = '';
                     $masBD['supl_code'] = $supl['supl_code'];
                     $masBD['supliers'] = $supl['id'];
                     $masBD['brand_clean'] = BaseService::OnlyLettersAndDigits($masBD['_brand']);
                     $masBD['article_clean'] = BaseService::OnlyLettersAndDigits($masBD['_article']);
+
                     $hashcode = md5($masBD['supliers'].$masBD['_brand'].$masBD['_article'].$masBD['_price']);
-                    //Пишем в БД
+
+
+                    if(stripos($duplicate, $hashcode) !== false) {//Уже есть такая запись
+                        $pos['num_str'] = $num_str.' / '.$hashcode;
+                        $error_mas[] = $pos;
+                        continue;
+                    }
+                    //----------------Готовимся Писать в БД-----------------------------
                     $column_str .= "brand_clean,
                                     article_clean,
                                     supl_code,
@@ -200,23 +221,49 @@ class LoadpriceController extends Controller
                                   "'".$masBD['supliers']."',"."'".
                                   $hashcode."'";
 
+                    if($duplicate == '') $duplicate = " hashcode='".$hashcode."' ";
+                    $duplicate .= " OR hashcode='".$hashcode."' ";
+                    //----------------Пишем в БД-----------------------------
+                    $kol_rows++;
+                    $gl_values .= '('.$value_str.')';
+                    if( ($kol_rows > 100) || ($all_rows < ($num_str+100)) ){
+
+                        $sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
+                        $res = Yii::$app->db->createCommand($sql)->execute();
+
+                        $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
+                        $res = Yii::$app->db->createCommand($sql)->execute();
+                        $gl_values = ''; $kol_rows = 0; $duplicate = '';
+                    } else {
+                        $gl_values .= ',';
+                    }
+                    //----------------Пишем в БД-----------------------------
+                    /*
+
+                    INSERT IGNORE INTO table1 (field1) VALUES ('C'),('D'),('E')
+                    LOAD DATA INFILE
+
+                    $sql = "INSERT INTO price (".$column_str.")
+                                VALUES ".$gl_values.";
+                                ON DUPLICATE KEY UPDATE
+                                `_price`  = VALUES(`_price`),
+                                `_count` =  VALUES(`_count`);";
+
                     $sql = "INSERT INTO price(".$column_str.")
                     VALUES(".$value_str.")
                     ON DUPLICATE KEY UPDATE
                     _price = '" . $masBD['_price'] . "',
                     _count = '" . $masBD['_count'] . "'";
-
                     $res = Yii::$app->db->createCommand($sql)->execute();
-                    $all_position++;
-                    //if($all_position > 1000) break;
+                    */
                 }
-            }
+            } else { echo '<pre>'; var_dump($model); die; }
         }
 
         $data_fn = time();
         return $this->render('load-price-from-file', [
             'error_mas' => $error_mas,
-            'all_position' => $all_position,
+            'all_position' => $all_rows,//$num_str,
             'data_st' => $data_st,
             'data_fn' => $data_fn,
         ]);

@@ -37,7 +37,7 @@ $excel_col = [
         <thead>
         </thead>
         <tr>
-            <th>№</th>
+            <th style="width: 50px;">№</th>
             <?php foreach($excel_col as $key => $item) { ?>
                 <th><?=$key?></th>
             <?php } ?>
