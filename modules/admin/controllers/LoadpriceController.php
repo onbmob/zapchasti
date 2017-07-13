@@ -126,7 +126,13 @@ class LoadpriceController extends Controller
 
             $model->file = UploadedFile::getInstance($model, 'file');
 
+
             if ($model->file && $model->validate()) {
+
+                //$model->file->saveAs('tmp/' . $model->file->baseName . '.' . $model->file->extension);
+                //$ttt_str = file_get_contents($model->file->tempName);
+                //$ttt = fgetcsv($ttt_str, 100000, ";");
+
                 $all_rows = '----';
                 $data = \moonland\phpexcel\Excel::import( $model->file->tempName, [
                     'setFirstRecordAsKeys' => false, // if you want to set the keys of record column with first record, if it not set, the header with use the alphabet column on excel.

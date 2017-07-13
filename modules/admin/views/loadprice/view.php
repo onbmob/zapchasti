@@ -39,6 +39,7 @@ $price_col = LoadpriceModel::getColums();
         <div hidden>
         <?php
         $accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        //$accept = 'img';
         $model_file = new FilesModel();
         $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'],
             'action'=>"index.php?r=admin/loadprice/load-price-from-file",'id'=> 'form_price' ]);
