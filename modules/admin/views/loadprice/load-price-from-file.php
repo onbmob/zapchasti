@@ -5,7 +5,7 @@ use yii\bootstrap\Html;
 
 /* @var $page \app\models\StaticPages */
 
-$this->title = 'Результат загрузки';
+$this->title = 'Результат загрузки - '.$err_load;
 $this->params['breadcrumbs'][] = $this->title;
 $excel_col = [
     'A' => 'col_1',
@@ -26,7 +26,7 @@ $excel_col = [
 
 ?>
 <div class="body-content">
-    <h3>Необработанніе строки - <b><?=count($error_mas)?></b> из <?=$all_position?></h3>
+    <h3>Необработанные строки - <b><?=count($error_mas)?></b> из <?=$all_position?></h3>
 
     <div class="form-group">
         <?= Html::a('Выход', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
@@ -48,10 +48,8 @@ $excel_col = [
                <td><?=$item['num_str']?></td>
                 <?php
                    foreach($excel_col as $key => $ttt) {
-
                       if(isset($item[$key])) {
-                          if(mb_detect_encoding($item, "auto") != 'UTF-8' )
-                              $item = iconv('windows-1251', 'UTF-8', $item);
+                          //if(is_string($item[$key])) $item[$key] = iconv('windows-1251', 'UTF-8', $item[$key]);
                           echo '<td>'.$item[$key].'</td>';
                       }
                       else  echo '<td>-</td>';

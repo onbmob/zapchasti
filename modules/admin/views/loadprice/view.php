@@ -25,7 +25,7 @@ $price_col = LoadpriceModel::getColums();
     <p>
         <?= Html::a('Выход', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+        <?= Html::a('Удалить шаблон', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Вы действительно хотите удалить '. $model->supliers .' ?',
@@ -34,22 +34,38 @@ $price_col = LoadpriceModel::getColums();
 
         ]) ?>
 
+        <?= Html::a('Удалить все записи из БД', ['delete-db', 'id' => $model->supliers], [
+            'class' => 'btn btn-danger',
+            'style' => 'float: right; margin-left: 5px',
+            'data' => [
+                'confirm' => 'Вы действительно хотите удалить из БД все записи '. $supl->getID($model->supliers) .' ?',
+                'method' => 'post',
+            ],
+
+        ]) ?>
         <?php echo  Html::Button('Загрузить прайс <b>'.$model->type.'</b>',
-            ['class' => 'btn btn-primary', 'style' => 'float: right', 'onclick'=>"$('#start_search_files_basket').click()"]) ?>
+            ['class' => 'btn btn-primary',
+             'style' => 'float: right',
+             'onclick'=>"$('#start_search_files_basket').click()"
+            ]) ?>
+
         <div hidden>
         <?php
         switch($model->type){
             case '.csv':
-                $accept = 'img';
+                $action = 'load-price-from-file-csv';
+                $accept = '.csv';
                 break;
             case '.xls':
             case '.xlsx':
+                //$action = 'load-price-from-file-csv';
+                $action = 'load-price-from-file-xls';
                 $accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 break;
         }
         $model_file = new FilesModel();
         $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'],
-            'action'=>"index.php?r=admin/loadprice/load-price-from-file",'id'=> 'form_price' ]);
+            'action'=>"index.php?r=admin/loadprice/".$action,'id'=> 'form_price' ]);
         echo $form->field($model, 'id')->textInput();
         echo $form->field($model_file, 'file')->fileInput(['accept'=>$accept,'class' => '', 'onchange'=>'LoadPriceFromFile(event)','id'=>'start_search_files_basket'])->label(false);
         ActiveForm::end();
