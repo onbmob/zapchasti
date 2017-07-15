@@ -58,8 +58,8 @@ $price_col = LoadpriceModel::getColums();
                 break;
             case '.xls':
             case '.xlsx':
-                //$action = 'load-price-from-file-csv';
-                $action = 'load-price-from-file-xls';
+                $action = 'load-price-from-file-csv';
+                //$action = 'load-price-from-file-xls';
                 $accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 break;
         }

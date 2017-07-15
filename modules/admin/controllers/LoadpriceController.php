@@ -103,7 +103,7 @@ class LoadpriceController extends Controller
     }
 
 
-    function convertXLStoCSV($infile, $outfile) // the function that converts the file
+    function convertXLStoCSV($infile) // the function that converts the file
     {
         $fileType = PHPExcel_IOFactory::identify($infile);
         $objReader = PHPExcel_IOFactory::createReader($fileType);
@@ -111,18 +111,14 @@ class LoadpriceController extends Controller
         $objPHPExcel = $objReader->load($infile);
 
         $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
-        $writer->setDelimiter(",");
+        $writer->setDelimiter(";");
         $writer->setEnclosure("");
         foreach ($objPHPExcel->getWorksheetIterator() as $workSheetIndex => $worksheet)
         {
             $objPHPExcel->setActiveSheetIndex($workSheetIndex);
             $writer->setSheetIndex($workSheetIndex);
-            $writer->save('converted/' . $outfile ."_" . $worksheet->getTitle() . ".csv");
-
-
-            //echo $outfile;
-            //echo $infile;
-            //die;
+            //$writer->save('converted/' . $outfile ."_" . $worksheet->getTitle() . ".csv");
+            $writer->save($infile);
         }
     }
 
@@ -167,9 +163,9 @@ class LoadpriceController extends Controller
             if ($model->file && $model->validate()) {
                 $err_load = 'ok';
 
-                /*if($model->file->extension == 'xls' || $model->file->extension == 'xlsx'){
-                    $this->convertXLStoCSV($model->file->tempName, 'ttt.csv');
-                }*/
+                if($model->file->extension == 'xls' || $model->file->extension == 'xlsx'){
+                    $this->convertXLStoCSV($model->file->tempName);
+                }
 
                 //echo 'extension - '.$model->file->extension.'<br>';
 
@@ -179,17 +175,29 @@ class LoadpriceController extends Controller
                     $gl_values = '';
                     $num_str = 0;
                     $kol_rows = 0;
-                    while (($row = fgetcsv($handle, 1000, ";")) !== false) {
-                        //if($num_str > 1000) break;
+                    while (($row = fgetcsv($handle, 2000, ";")) !== false) {
                         $num_str++;
-                        $mas_keys = array_splice($mas_keys, 0, count($row));
-                        $pos = array_combine($mas_keys, $row);
+                        $mas_keys2 = $mas_keys;
+                        array_splice($mas_keys2, count($row));
+                        try{
+                            $pos = array_combine($mas_keys2, $row);
+                        } catch(\Exception $ex) {
+                            echo 'N - '.$num_str.'/'.count($row).'<br>';
+                            /*var_dump($mas_keys);
+                            var_dump($mas_keys2);
+                            var_dump($row);
+                            die;*/
+                            continue;
+                        }
                         //---------------------------------
                         $error = false; $masBD = [];
                         $column_str = $value_str = '';
                         foreach($pos as $key => $item){
                             $pole = $col[$excel_col[$key]];
                             if($pole == '-' ) continue;
+                            //Боремся с кавычками (' " \ \r \n) и другой дрянью
+                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));
+
                             if($pole == '_price') {
                                 $price = BaseService::ClearFloat($item);
                                 if (BaseService::ClearFloat($item) > 0 ){
@@ -208,24 +216,6 @@ class LoadpriceController extends Controller
                                     continue;
                                 }
                             }
-                            if($pole == '_article') {
-                                $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
-                            }
-                            if($pole == '_name') {
-                                /*echo mb_detect_encoding($item).'<br>';
-                                echo mb_detect_encoding($item, "auto").'<br>';
-                                die;*/
-                                //if(mb_detect_encoding($item) != 'UTF-8' )
-                                $item = iconv('windows-1251', 'UTF-8', $item);
-                                $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
-                            }
-                            if($pole == '_brand') {
-                                $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
-                            }
-                            if($pole == '_applicability') {
-                                $item = BaseService::OnlyLettersDigitsBspSymb($item);//Боремся с кавычками (') и другой дрянью
-                            }
-
                             $masBD[$pole] = $item;
                             $column_str .= $pole.", ";
                             $value_str .= "'".$item."', ";
@@ -273,8 +263,8 @@ class LoadpriceController extends Controller
                             "'".$masBD['supliers']."',"."'".
                             $hashcode."'";
 
-                        if($duplicate == '') $duplicate = " hashcode='".$hashcode."' ";
-                        $duplicate .= " OR hashcode='".$hashcode."' ";
+                        if($duplicate == '') $duplicate .= " hashcode='".$hashcode."' ";
+                        else $duplicate .= " OR hashcode='".$hashcode."' ";
                         //----------------Пишем в БД-----------------------------
                         $kol_rows++;
                         if($gl_values == '') $gl_values .= '('.$value_str.')';
