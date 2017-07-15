@@ -184,7 +184,11 @@ class LoadpriceController extends Controller
                             $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
                         }
                         if($pole == '_name') {
-                            $item = iconv('windows-1251', 'UTF-8', $item);
+                            /*echo mb_detect_encoding($item).'<br>';
+                            echo mb_detect_encoding($item, "auto").'<br>';
+                            die;*/
+                            if(mb_detect_encoding($item) != 'UTF-8' )
+                                $item = iconv('windows-1251', 'UTF-8', $item);
                             $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
                         }
                         if($pole == '_brand') {
@@ -356,7 +360,8 @@ class LoadpriceController extends Controller
                             $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
                         }
                         if($pole == '_name') {
-                            $item = iconv('windows-1251', 'UTF-8', $item);
+                            if(mb_detect_encoding($item, "auto") != 'UTF-8' )
+                                  $item = iconv('windows-1251', 'UTF-8', $item);
                             $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
                         }
                         if($pole == '_brand') {
@@ -413,7 +418,7 @@ class LoadpriceController extends Controller
                     //----------------Пишем в БД-----------------------------
                     $kol_rows++;
                     $gl_values .= '('.$value_str.')';
-                    if( ($kol_rows > 3) || ($all_rows < ($num_str+3)) ){
+                    if( ($kol_rows > 100) || ($all_rows < ($num_str+100)) ){
 
                         $sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
                         $res = Yii::$app->db->createCommand($sql)->execute();

@@ -48,7 +48,12 @@ $excel_col = [
                <td><?=$item['num_str']?></td>
                 <?php
                    foreach($excel_col as $key => $ttt) {
-                      if(isset($item[$key])) echo '<td>'.$item[$key].'</td>';
+
+                      if(isset($item[$key])) {
+                          if(mb_detect_encoding($item, "auto") != 'UTF-8' )
+                              $item = iconv('windows-1251', 'UTF-8', $item);
+                          echo '<td>'.$item[$key].'</td>';
+                      }
                       else  echo '<td>-</td>';
                 ?>
                 <?php }?>
