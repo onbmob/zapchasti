@@ -34,12 +34,19 @@ $price_col = LoadpriceModel::getColums();
 
         ]) ?>
 
-        <?php echo  Html::Button('Загрузить прайс',
+        <?php echo  Html::Button('Загрузить прайс <b>'.$model->type.'</b>',
             ['class' => 'btn btn-primary', 'style' => 'float: right', 'onclick'=>"$('#start_search_files_basket').click()"]) ?>
         <div hidden>
         <?php
-        $accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-        //$accept = 'img';
+        switch($model->type){
+            case '.csv':
+                $accept = 'img';
+                break;
+            case '.xls':
+            case '.xlsx':
+                $accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
+        }
         $model_file = new FilesModel();
         $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'],
             'action'=>"index.php?r=admin/loadprice/load-price-from-file",'id'=> 'form_price' ]);

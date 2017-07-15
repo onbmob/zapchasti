@@ -73,7 +73,7 @@ class BaseService {
     public static function OnlyLettersDigitsBspSymb($str)
     {
         //return preg_replace("/([^\w\s]|_)/u", "", $str);
-        $mas = ["'","\"","\r","\n"];
+        $mas = ["\\","'","\"","\r","\n"];
         $str = str_replace($mas,"",$str);
         return $str;
     }
