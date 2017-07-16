@@ -139,14 +139,16 @@ class LoadpriceController extends Controller
             'J' => 'col_10',
             'K' => 'col_11',
             'L' => 'col_12',
-            //'M' => 'col_13',
-            //'N' => 'col_14',
+            'M' => 'col_13',
+            'N' => 'col_14',
         ];
-        $mas_keys = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+        $mas_keys = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
 
         $model = new FilesModel();
 
         $error_mas = [];
+        $num_str = 0;
+
         $data_st = time();
         $err_load = 'no_request';
         if (Yii::$app->request->isPost) {
@@ -170,24 +172,25 @@ class LoadpriceController extends Controller
                 //echo 'extension - '.$model->file->extension.'<br>';
 
                 if (($handle = fopen($model->file->tempName, 'r')) !== false) {
+                    $tmp_mas = [];
                     $mas_hash = [];
                     $duplicate = '';
                     $gl_values = '';
-                    $num_str = 0;
                     $kol_rows = 0;
-                    while (($row = fgetcsv($handle, 2000, ";")) !== false) {
+                    while (($row = fgetcsv($handle, 30000, ";")) !== false) {
+
+                        $tmp_mas[] = $row;
+
                         $num_str++;
                         $mas_keys2 = $mas_keys;
                         array_splice($mas_keys2, count($row));
                         try{
                             $pos = array_combine($mas_keys2, $row);
                         } catch(\Exception $ex) {
+                            echo 'Некорректная перекодировка из XLS --> CSV<br>';
                             echo 'N - '.$num_str.'/'.count($row).'<br>';
-                            /*var_dump($mas_keys);
-                            var_dump($mas_keys2);
-                            var_dump($row);
-                            die;*/
-                            continue;
+                            var_dump($tmp_mas);
+                            die;
                         }
                         //---------------------------------
                         $error = false; $masBD = [];
@@ -243,7 +246,7 @@ class LoadpriceController extends Controller
                         $masBD['brand_clean'] = BaseService::OnlyLettersAndDigits($masBD['_brand']);
                         $masBD['article_clean'] = BaseService::OnlyLettersAndDigits($masBD['_article']);
 
-                        $hashcode = md5($masBD['supliers'].$masBD['_brand'].$masBD['_article'].$masBD['_price']);
+                        $hashcode = md5($masBD['supliers'].$masBD['brand_clean'].$masBD['article_clean'].$masBD['_price']);
 
                         if(isset($mas_hash[$hashcode])){
                         //if(stripos($duplicate, $hashcode) !== false) {//Уже есть такая запись
@@ -276,10 +279,19 @@ class LoadpriceController extends Controller
 
                             $sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
                             $res = Yii::$app->db->createCommand($sql)->execute();
-
-                            $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
-                            $res = Yii::$app->db->createCommand($sql)->execute();
-                            $gl_values = ''; $kol_rows = 0; $duplicate = '';
+                            try{
+                                $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
+                                $res = Yii::$app->db->createCommand($sql)->execute();
+                                $gl_values = ''; $kol_rows = 0; $duplicate = '';
+                                $tmp_mas = [];
+                            } catch(\Exception $ex) {
+                                echo 'Ошибка записи в БД';
+                                echo '$column_str = '.$column_str.'<br>';
+                                echo '$gl_values = '.$gl_values.'<br>';
+                                echo '<pre>';
+                                var_dump($tmp_mas);
+                                die;
+                            }
                         }
                         //---------------------------------
                     }
@@ -326,14 +338,16 @@ class LoadpriceController extends Controller
             'J' => 'col_10',
             'K' => 'col_11',
             'L' => 'col_12',
-            //'M' => 'col_13',
-            //'N' => 'col_14',
+            'M' => 'col_13',
+            'N' => 'col_14',
         ];
-        $mas_keys = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+        $mas_keys = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N'];
 
         $model = new FilesModel();
 
         $error_mas = [];
+        $num_str = 0;
+
         $data_st = time();
         $err_load = 'no_request';
         if (Yii::$app->request->isPost) {
@@ -361,7 +375,6 @@ class LoadpriceController extends Controller
                 $all_rows = count($data);
                 $duplicate = '';
                 $gl_values = '';
-                $num_str = 0;
                 $kol_rows = 0;
                 foreach($data as $pos){ $num_str++;
                     $error = false; $masBD = [];
@@ -369,6 +382,10 @@ class LoadpriceController extends Controller
                     foreach($pos as $key => $item){
                         $pole = $col[$excel_col[$key]];
                         if($pole == '-' ) continue;
+
+                        //Боремся с кавычками (' " \ \r \n) и другой дрянью
+                        $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));
+
                         if($pole == '_price') {
                             $price = BaseService::ClearFloat($item);
                             if (BaseService::ClearFloat($item) > 0 ){
@@ -386,20 +403,6 @@ class LoadpriceController extends Controller
                                 $error = true;
                                 continue;
                             }
-                        }
-                        if($pole == '_article') {
-                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
-                        }
-                        if($pole == '_name') {
-                            if(mb_detect_encoding($item, "auto") != 'UTF-8' )
-                                  $item = iconv('windows-1251', 'UTF-8', $item);
-                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
-                        }
-                        if($pole == '_brand') {
-                            $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));//Боремся с кавычками (') и другой дрянью
-                        }
-                        if($pole == '_applicability') {
-                            $item = BaseService::OnlyLettersDigitsBspSymb($item);//Боремся с кавычками (') и другой дрянью
                         }
 
                         $masBD[$pole] = $item;

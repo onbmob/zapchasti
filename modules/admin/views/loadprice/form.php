@@ -36,7 +36,7 @@ $price_col = LoadpriceModel::getColums();
     <?= $form->field($model, 'type')->dropDownList($type) ?>
 
     <?php
-      for($i=1; $i<=12; $i++){
+      for($i=1; $i<=14; $i++){
           $col = 'col_'.$i;
           echo $form->field($model, $col)->dropDownList($price_col);
       }

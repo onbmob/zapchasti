@@ -88,52 +88,60 @@ $price_col = LoadpriceModel::getColums();
             'type',
             // ОПТИМИЗИРОВАТЬ !!!!!!!
             [
-                'attribute' => 'col_1', 'format' => 'raw', 'label' => '1 колонка прайса',
+                'attribute' => 'col_1', 'format' => 'raw', 'label' => '1 (A) колонка прайса',
                 'value'=> $price_col[$model->col_1]
             ],
             [
-                'attribute' => 'col_2', 'format' => 'raw', 'label' => '2 колонка прайса',
+                'attribute' => 'col_2', 'format' => 'raw', 'label' => '2 (B) колонка прайса',
                 'value'=> $price_col[$model->col_2]
             ],
             [
-                'attribute' => 'col_3', 'format' => 'raw', 'label' => '3 колонка прайса',
+                'attribute' => 'col_3', 'format' => 'raw', 'label' => '3 (C) колонка прайса',
                 'value'=> $price_col[$model->col_3]
             ],
             [
-                'attribute' => 'col_4', 'format' => 'raw', 'label' => '4 колонка прайса',
+                'attribute' => 'col_4', 'format' => 'raw', 'label' => '4 (D) колонка прайса',
                 'value'=> $price_col[$model->col_4]
             ],
             [
-                'attribute' => 'col_5', 'format' => 'raw', 'label' => '5 колонка прайса',
+                'attribute' => 'col_5', 'format' => 'raw', 'label' => '5 (E) колонка прайса',
                 'value'=> $price_col[$model->col_5]
             ],
             [
-                'attribute' => 'col_6', 'format' => 'raw', 'label' => '6 колонка прайса',
+                'attribute' => 'col_6', 'format' => 'raw', 'label' => '6 (F) колонка прайса',
                 'value'=> $price_col[$model->col_6]
             ],
             [
-                'attribute' => 'col_7', 'format' => 'raw', 'label' => '7 колонка прайса',
+                'attribute' => 'col_7', 'format' => 'raw', 'label' => '7 (G) колонка прайса',
                 'value'=> $price_col[$model->col_7]
             ],
             [
-                'attribute' => 'col_8', 'format' => 'raw', 'label' => '8 колонка прайса',
+                'attribute' => 'col_8', 'format' => 'raw', 'label' => '8 (H) колонка прайса',
                 'value'=> $price_col[$model->col_8]
             ],
             [
-                'attribute' => 'col_9', 'format' => 'raw', 'label' => '9 колонка прайса',
+                'attribute' => 'col_9', 'format' => 'raw', 'label' => '9 (I) колонка прайса',
                 'value'=> $price_col[$model->col_9]
             ],
             [
-                'attribute' => 'col_10', 'format' => 'raw', 'label' => '10 колонка прайса',
+                'attribute' => 'col_10', 'format' => 'raw', 'label' => '10 (J) колонка прайса',
                 'value'=> $price_col[$model->col_10]
             ],
             [
-                'attribute' => 'col_11', 'format' => 'raw', 'label' => '11 колонка прайса',
+                'attribute' => 'col_11', 'format' => 'raw', 'label' => '11 (K) колонка прайса',
                 'value'=> $price_col[$model->col_11]
             ],
             [
-                'attribute' => 'col_12', 'format' => 'raw', 'label' => '12 колонка прайса',
+                'attribute' => 'col_12', 'format' => 'raw', 'label' => '12 (L) колонка прайса',
                 'value'=> $price_col[$model->col_12]
+            ],
+            [
+                'attribute' => 'col_13', 'format' => 'raw', 'label' => '13 (M) колонка прайса',
+                'value'=> $price_col[$model->col_13]
+            ],
+            [
+                'attribute' => 'col_14', 'format' => 'raw', 'label' => '14 (N) колонка прайса',
+                'value'=> $price_col[$model->col_14]
             ],
         ],
     ]) ?>
