@@ -23,9 +23,11 @@ class DefaultController extends Controller {
 
         $type = Yii::$app->request->get('type');
         $brand = CrossDb::getManufacturers($type);
-        usort($brand['data'], function ($a, $b) {
-            return (strnatcasecmp(str_replace(' ','',$a['Description']), str_replace(' ','',$b['Description'])));
-        });
+        if(count($brand)>1){
+            usort($brand['data'], function ($a, $b) {
+                return (strnatcasecmp(str_replace(' ','',$a['Description']), str_replace(' ','',$b['Description'])));
+            });
+        }
 
         return $this->render('search-type-brand', [
             'type' => $type,
@@ -38,10 +40,12 @@ class DefaultController extends Controller {
         $id = Yii::$app->request->get('id');
         $brand = Yii::$app->request->get('brand');
         $models = CrossDb::getModelsManufacturer($id);
-        usort($models['data'], function ($a, $b) {
-            if($a['ConstructionIntervalFrom'] > $b['ConstructionIntervalFrom']) return (-1);
-            return 1;
-        });
+        if(count($models)>1){
+            usort($models['data'], function ($a, $b) {
+                if($a['ConstructionIntervalFrom'] > $b['ConstructionIntervalFrom']) return (-1);
+                return 1;
+            });
+        }
 
         return $this->render('get-models-manufacturer', [
             'id' => $id,
@@ -73,19 +77,23 @@ class DefaultController extends Controller {
 
         $article = Yii::$app->request->get('article');
         $result = CrossDb::getArticlesSearch($article);
-        usort($result['data'], function ($a, $b) {
-            return (strnatcasecmp(str_replace(' ','',$a['DataSupplierArticleNumber']), str_replace(' ','',$b['DataSupplierArticleNumber'])));
-        });
-
-        $mas1 = $mas2 =[];
-        foreach($result['data'] as $item) {
-            if (stripos(BaseService::OnlyLettersAndDigits($item['DataSupplierArticleNumber']), BaseService::OnlyLettersAndDigits($article)) !== false ){
-                $item['ori']= true;
-                $mas1[] = $item;
+        if(isset($result['data'])){
+            if(count($result['data'])>1){
+                usort($result['data'], function ($a, $b) {
+                    return (strnatcasecmp(str_replace(' ','',$a['DataSupplierArticleNumber']), str_replace(' ','',$b['DataSupplierArticleNumber'])));
+                });
             }
-            else $mas2[] = $item;
-        }
-        $result['data'] = array_merge($mas1,$mas2);
+
+            $mas1 = $mas2 =[];
+            foreach($result['data'] as $item) {
+                if (stripos(BaseService::OnlyLettersAndDigits($item['DataSupplierArticleNumber']), BaseService::OnlyLettersAndDigits($article)) !== false ){
+                    $item['ori']= true;
+                    $mas1[] = $item;
+                }
+                else $mas2[] = $item;
+            }
+            $result['data'] = array_merge($mas1,$mas2);
+        } else $result['data'] = [];
 
         return $this->render('get-articles-search', [
             'article' => $article,
