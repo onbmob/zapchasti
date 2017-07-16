@@ -24,39 +24,41 @@
       string(0) ""
  */
 
-$this->title = 'Детали по номеру';
+$this->title = 'Результаты поиска';
 $this->params['breadcrumbs'][] = $this->title;
 //echo '<pre>'; var_dump($result); die;
 ?>
-<style>
-    .search-goods-art-brand:hover{background-color: #74b2e2!important; cursor: pointer};
-</style>
 
 <div class="body-content">
-    <h3><?=$article.' ('.count($result['data']).')'?></h3>
+    <h3><?=$title.' ('.count($result['data']).')'?></h3>
     <table class="table table-striped table-bordered">
         <thead>
 
         </thead>
         <tr>
-            <th>Продукт</th>
-            <th>Артикул</th>
+            <th>Поставщик</th>
             <th>Бренд</th>
-            <th></th>
+            <th>Артикул</th>
+            <th>Наименование</th>
+            <th>Кол-во</th>
+            <th>Цена</th>
+            <th>Кратность</th>
+            <th>Склад</th>
+            <th>Срок<br>поставки</th>
         </tr>
         <tbody>
         <!--echo 'style="font-weight: bold"';-->
-        <?php foreach($result['data'] as $item) {
-            if(isset($item['ori'])) $style_tr = 'style="font-weight: bold"';
-            else $style_tr = '';
-        ?>
-            <tr class="search-goods-art-brand"  <?=$style_tr?>
-                data-article="<?=$item['DataSupplierArticleNumber']?>"
-                data-brand="<?=$item['ManufacturerDescription']?>">
-                <td><?=$item['NormalizedDescription']?></td>
-                <td><?=$item['DataSupplierArticleNumber']?></td>
-                <td><?=$item['ManufacturerDescription']?></td>
-                <td><?=$item['AssemblyGroupDescription']?></td>
+        <?php foreach($result['data'] as $item) {?>
+            <tr class="goods-item">
+                <td><?=$item->supl_code?></td>
+                <td><?=$item->_brand?></td>
+                <td><?=$item->_article?></td>
+                <td><?=$item->_name?></td>
+                <td><?=$item->_count?></td>
+                <td><?=$item->_price?></td>
+                <td><?=$item->_multiplicity?></td>
+                <td><?=$item->_storage?></td>
+                <td><?=$item->_storage_time?></td>
             </tr>
         <?php }?>
         </tbody>

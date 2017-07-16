@@ -20,6 +20,11 @@ $(document).ready(function(){
         startMainSearch();
     });
 
+    $(document).on('click', '.search-goods-art-brand', function () {
+        showConsoleLog('search-goods-art-br');
+        searchGoodsArtBrand($(this));
+    });
+
 });
 
 //=======================================================================================
@@ -40,12 +45,20 @@ function showConsoleLog(text) {
 }
 
 //=======================================================================================
+//=======================================================================================
+function searchGoodsArtBrand(el) {
+
+    var brand = el.attr('data-article');
+    var article = el.attr('data-brand');
+    showConsoleLog(brand + ' / ' + article);
+    document.location.href = "/index.php?r=search/default/search-from-db&type=1&article=" + article + "&brand=" + brand;
+}
 function startMainSearch() {
     var search_article_main = $('#search_article_main');
     if(search_article_main.val().length > 2) {
         document.location.href = "/index.php?r=search/default/get-articles-search&article=" + $('#search_article_main').val() + "";
-    } else if($('#search_phrase_main').val().length > 2){//по фразе пока не ищем
-
+    } else if($('#search_phrase_main').val().length > 3){//по фразе пока не ищем
+        document.location.href = "/index.php?r=search/default/search-from-db&type=2&name=" + $('#search_phrase_main').val();
     }
 }
 

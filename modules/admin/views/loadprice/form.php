@@ -45,7 +45,7 @@ $price_col = LoadpriceModel::getColums();
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?= Html::resetButton('Сбросить',['class' => 'btn btn-default']) ?>
-        <?= Html::a('Выход', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Шаблоны', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>

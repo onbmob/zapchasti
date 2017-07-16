@@ -23,7 +23,7 @@ $price_col = LoadpriceModel::getColums();
     <h1><?= Html::encode('Шаблон : '.$model->descript) ?></h1>
 
     <p>
-        <?= Html::a('Выход', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Шаблоны', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить шаблон', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -60,7 +60,8 @@ $price_col = LoadpriceModel::getColums();
             case '.xlsx':
                 $action = 'load-price-from-file-csv';
                 //$action = 'load-price-from-file-xls';
-                $accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                //$accept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                $accept = '.xls, .xlsx';
                 break;
         }
         $model_file = new FilesModel();

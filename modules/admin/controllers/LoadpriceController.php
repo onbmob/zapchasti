@@ -161,7 +161,7 @@ class LoadpriceController extends Controller
 
 
             if ($model->file && $model->validate()) {
-                $err_load = 'ok';
+                $err_load = $model->file->name.'('.$model->file->size.') ';
 
                 if($model->file->extension == 'xls' || $model->file->extension == 'xlsx'){
                     $this->convertXLStoCSV($model->file->tempName);
@@ -192,11 +192,14 @@ class LoadpriceController extends Controller
                         //---------------------------------
                         $error = false; $masBD = [];
                         $column_str = $value_str = '';
-                        foreach($pos as $key => $item){
+                        foreach($pos as $key => &$item){
                             $pole = $col[$excel_col[$key]];
                             if($pole == '-' ) continue;
+
                             //Боремся с кавычками (' " \ \r \n) и другой дрянью
                             $item = trim(BaseService::OnlyLettersDigitsBspSymb($item));
+                            if($model->file->extension == 'csv')
+                                    $item = iconv('windows-1251', 'UTF-8', $item);
 
                             if($pole == '_price') {
                                 $price = BaseService::ClearFloat($item);
@@ -346,7 +349,7 @@ class LoadpriceController extends Controller
 
             if ($model->file && $model->validate()) {
 
-                $err_load = 'ok';
+                $err_load = $model->file->name.'('.$model->file->size.') ';
                 //echo 'extension - '.$model->file->extension.'<br>';
 
                 $data = \moonland\phpexcel\Excel::import( $model->file->tempName, [

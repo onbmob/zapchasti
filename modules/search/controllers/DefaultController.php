@@ -3,6 +3,7 @@ namespace app\modules\search\controllers;
 
 use app\models\BaseService;
 use app\models\CrossDb;
+use app\models\PriceDb;
 use yii;
 use yii\web\Controller;
 
@@ -88,6 +89,30 @@ class DefaultController extends Controller {
 
         return $this->render('get-articles-search', [
             'article' => $article,
+            'result' => $result
+        ]);
+    }
+
+    function actionSearchFromDb() {// получить детали по номеру. <=> GetArticlesCar()//получить детали автомобиля
+
+        $params = Yii::$app->request->get();
+        $result = [];
+        $price = new PriceDb();
+        $title = 'Ошибка поиска - неизвестный тип поиска';
+        switch($params['type']){
+            case '1'://Поиск по аортикулу и бренду
+                $title = $params['brand'].' / '.$params['article'];
+                $result['data'] = $price->SearchByArtBrand($params);
+                break;
+            case '2'://Поиск по наименованию
+                $title = $params['name'];
+                $result['data'] = $price->SearchByName($params);
+                break;
+        }
+
+        return $this->render('search-from-db', [
+            'title' => $title,
+            'params' => $params,
             'result' => $result
         ]);
     }

@@ -26,13 +26,13 @@ $excel_col = [
 
 ?>
 <div class="body-content">
-    <h3>Необработанные строки - <b><?=count($error_mas)?></b> из <?=$all_position?></h3>
+    <h3>Файл: <?=$err_load?>.</h3>
 
     <div class="form-group">
-        <?= Html::a('Выход', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
+        <?= Html::a('Шаблоны', 'index.php?r=admin/loadprice',['class' => 'btn btn-success']); ?>
     </div>
 
-    <h4>Время работы : <?=($data_fn - $data_st)?> сек</h4>
+    <h4>Время работы : <?=($data_fn - $data_st)?> сек. Необработанные строки - <b><?=count($error_mas)?></b> из <?=$all_position?></h4>
     <table class="table table-striped table-bordered">
         <thead>
         </thead>
