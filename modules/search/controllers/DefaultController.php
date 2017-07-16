@@ -23,11 +23,13 @@ class DefaultController extends Controller {
 
         $type = Yii::$app->request->get('type');
         $brand = CrossDb::getManufacturers($type);
-        if(count($brand)>1){
-            usort($brand['data'], function ($a, $b) {
-                return (strnatcasecmp(str_replace(' ','',$a['Description']), str_replace(' ','',$b['Description'])));
-            });
-        }
+        if(isset($brand['data'])){
+            if(count($brand)>1){
+                usort($brand['data'], function ($a, $b) {
+                    return (strnatcasecmp(str_replace(' ','',$a['Description']), str_replace(' ','',$b['Description'])));
+                });
+            }
+        } else $brand['data'] = [];
 
         return $this->render('search-type-brand', [
             'type' => $type,
@@ -40,12 +42,14 @@ class DefaultController extends Controller {
         $id = Yii::$app->request->get('id');
         $brand = Yii::$app->request->get('brand');
         $models = CrossDb::getModelsManufacturer($id);
-        if(count($models)>1){
-            usort($models['data'], function ($a, $b) {
-                if($a['ConstructionIntervalFrom'] > $b['ConstructionIntervalFrom']) return (-1);
-                return 1;
-            });
-        }
+        if(isset($models['data'])){
+            if(count($models)>1){
+                usort($models['data'], function ($a, $b) {
+                    if($a['ConstructionIntervalFrom'] > $b['ConstructionIntervalFrom']) return (-1);
+                    return 1;
+                });
+            }
+        } else $models['data'] = [];
 
         return $this->render('get-models-manufacturer', [
             'id' => $id,
