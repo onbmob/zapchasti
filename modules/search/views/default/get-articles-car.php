@@ -28,6 +28,10 @@ $this->title = 'Детали авто';
 $this->params['breadcrumbs'][] = $this->title;
 //echo '<pre>'; var_dump($result); die;
 ?>
+<style>
+    .search-goods-art-brand:hover{background-color: #74b2e2!important; cursor: pointer};
+</style>
+
 <div class="body-content">
     <h3><?=$brand.' / '.$model.' ('.count($result['data']).')'?></h3>
     <table class="table table-striped table-bordered">
@@ -42,7 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
         <tbody>
         <?php foreach($result['data'] as $item) {?>
-            <tr>
+            <tr class="search-goods-art-brand"
+                data-article="<?=$item['DataSupplierArticleNumber']?>"
+                data-brand="<?=$item['ManufacturerDescription']?>">
                 <td><?=$item['NormalizedDescription']?></td>
                 <td><?=$item['DataSupplierArticleNumber']?></td>
                 <td><?=$item['ManufacturerDescription']?></td>
