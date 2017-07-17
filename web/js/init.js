@@ -48,8 +48,8 @@ function showConsoleLog(text) {
 //=======================================================================================
 function searchGoodsArtBrand(el) {
 
-    var brand = el.attr('data-article');
-    var article = el.attr('data-brand');
+    var article = el.attr('data-article');
+    var brand = el.attr('data-brand');
     showConsoleLog(brand + ' / ' + article);
     document.location.href = "/index.php?r=search/default/search-from-db&type=1&article=" + article + "&brand=" + brand;
 }

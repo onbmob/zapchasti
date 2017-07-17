@@ -248,15 +248,15 @@ class LoadpriceController extends Controller
 
                         $hashcode = md5($masBD['supliers'].$masBD['brand_clean'].$masBD['article_clean'].$masBD['_price']);
 
-                        if(isset($mas_hash[$hashcode])){
-                        //if(stripos($duplicate, $hashcode) !== false) {//Уже есть такая запись
+                        //if(isset($mas_hash[$hashcode])){
+                        if(stripos($duplicate, $hashcode) !== false) {//Уже есть такая запись
                             if(count($error_mas) <= 1000){
                                 $pos['num_str'] = $num_str.' / '.$hashcode;
                                 $error_mas[] = $pos;
                             }
                             continue;
                         }
-                        $mas_hash[$hashcode] = true;
+                        //$mas_hash[$hashcode] = true;
                         //----------------Готовимся Писать в БД-----------------------------
                         $column_str .= "brand_clean,
                                     article_clean,
