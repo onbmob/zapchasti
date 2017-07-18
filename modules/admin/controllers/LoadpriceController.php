@@ -146,6 +146,7 @@ class LoadpriceController extends Controller
 
         $model = new FilesModel();
 
+        $count_err_str = 0;
         $error_mas = [];
         $num_str = 0;
 
@@ -172,14 +173,14 @@ class LoadpriceController extends Controller
                 //echo 'extension - '.$model->file->extension.'<br>';
 
                 if (($handle = fopen($model->file->tempName, 'r')) !== false) {
-                    $tmp_mas = [];
-                    $mas_hash = [];
+                    //$tmp_mas = [];
+                    //$mas_hash = [];
                     $duplicate = '';
                     $gl_values = '';
                     $kol_rows = 0;
                     while (($row = fgetcsv($handle, 30000, ";")) !== false) {
 
-                        $tmp_mas[] = $row;
+                        //$tmp_mas[] = $row;
 
                         $num_str++;
                         $mas_keys2 = $mas_keys;
@@ -189,7 +190,7 @@ class LoadpriceController extends Controller
                         } catch(\Exception $ex) {
                             echo 'Некорректная перекодировка из XLS --> CSV<br>';
                             echo 'N - '.$num_str.'/'.count($row).'<br>';
-                            var_dump($tmp_mas);
+                            //var_dump($tmp_mas);
                             die;
                         }
                         //---------------------------------
@@ -233,10 +234,11 @@ class LoadpriceController extends Controller
                             || !isset($masBD['_price'])
                             || !isset($masBD['_article'])
                         ) {
-                            if(count($error_mas) <= 1000){
+                            if(count($error_mas) <= 500){
                                 $pos['num_str'] = $num_str.' / цена или кол = 0';
                                 $error_mas[] = $pos;
                             }
+                            $count_err_str++;
                             continue;
                         }
 
@@ -250,10 +252,11 @@ class LoadpriceController extends Controller
 
                         //if(isset($mas_hash[$hashcode])){
                         if(stripos($duplicate, $hashcode) !== false) {//Уже есть такая запись
-                            if(count($error_mas) <= 1000){
+                            if(count($error_mas) <= 500){
                                 $pos['num_str'] = $num_str.' / '.$hashcode;
                                 $error_mas[] = $pos;
                             }
+                            $count_err_str++;
                             continue;
                         }
                         //$mas_hash[$hashcode] = true;
@@ -283,13 +286,13 @@ class LoadpriceController extends Controller
                                 $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
                                 $res = Yii::$app->db->createCommand($sql)->execute();
                                 $gl_values = ''; $kol_rows = 0; $duplicate = '';
-                                $tmp_mas = [];
+                                //$tmp_mas = [];
                             } catch(\Exception $ex) {
                                 echo 'Ошибка записи в БД';
                                 echo '$column_str = '.$column_str.'<br>';
                                 echo '$gl_values = '.$gl_values.'<br>';
                                 echo '<pre>';
-                                var_dump($tmp_mas);
+                                //var_dump($tmp_mas);
                                 die;
                             }
                         }
@@ -314,6 +317,7 @@ class LoadpriceController extends Controller
         return $this->render('load-price-from-file', [
             'err_load' => $err_load,
             'error_mas' => $error_mas,
+            'count_err_str' => $count_err_str,
             'all_position' => $num_str,
             'data_st' => $data_st,
             'data_fn' => $data_fn,
@@ -345,6 +349,7 @@ class LoadpriceController extends Controller
 
         $model = new FilesModel();
 
+        $count_err_str = 0;
         $error_mas = [];
         $num_str = 0;
 
@@ -416,10 +421,11 @@ class LoadpriceController extends Controller
                         || !isset($masBD['_price'])
                         || !isset($masBD['_article'])
                     ) {
-                        if(count($error_mas) <= 1000){
+                        if(count($error_mas) <= 500){
                             $pos['num_str'] = $num_str.' / цена или кол = 0';
                             $error_mas[] = $pos;
                         }
+                        $count_err_str++;
                         continue;
                     }
 
@@ -433,10 +439,11 @@ class LoadpriceController extends Controller
 
 
                     if(stripos($duplicate, $hashcode) !== false) {//Уже есть такая запись
-                        if(count($error_mas) <= 1000){
+                        if(count($error_mas) <= 500){
                             $pos['num_str'] = $num_str.' / '.$hashcode;
                             $error_mas[] = $pos;
                         }
+                        $count_err_str++;
                         continue;
                     }
                     //----------------Готовимся Писать в БД-----------------------------
@@ -494,6 +501,7 @@ class LoadpriceController extends Controller
         return $this->render('load-price-from-file', [
             'err_load' => $err_load,
             'error_mas' => $error_mas,
+            'count_err_str' => $count_err_str,
             'all_position' => $num_str,
             'data_st' => $data_st,
             'data_fn' => $data_fn,
