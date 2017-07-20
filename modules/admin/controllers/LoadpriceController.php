@@ -272,18 +272,20 @@ class LoadpriceController extends Controller
                             "'".$masBD['supliers']."',"."'".
                             $hashcode."'";
 
-                        if($duplicate == '') $duplicate .= " hashcode='".$hashcode."' ";
-                        else $duplicate .= " OR hashcode='".$hashcode."' ";
+                        $duplicate .= $hashcode." ";
+                        //if($duplicate == '') $duplicate .= " hashcode='".$hashcode."' ";
+                        //else $duplicate .= " OR hashcode='".$hashcode."' ";
                         //----------------Пишем в БД-----------------------------
                         $kol_rows++;
                         if($gl_values == '') $gl_values .= '('.$value_str.')';
                         else $gl_values .= ',('.$value_str.')';
                         if( ($kol_rows > 100)){
 
-                            $sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
-                            $res = Yii::$app->db->createCommand($sql)->execute();
+                            //$sql = "DELETE FROM price WHERE ".$duplicate.";";
+                            //$res = Yii::$app->db->createCommand($sql)->execute();
                             try{
-                                $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
+                                $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values."
+                                        ON DUPLICATE KEY UPDATE id=id;";
                                 $res = Yii::$app->db->createCommand($sql)->execute();
                                 $gl_values = ''; $kol_rows = 0; $duplicate = '';
                                 //$tmp_mas = [];
@@ -299,10 +301,11 @@ class LoadpriceController extends Controller
                         //---------------------------------
                     }
                     if( ($kol_rows > 0)){
-                        $sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
-                        $res = Yii::$app->db->createCommand($sql)->execute();
+                        //$sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
+                        //$res = Yii::$app->db->createCommand($sql)->execute();
 
-                        $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
+                        $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values."
+                                ON DUPLICATE KEY UPDATE id=id;";
                         $res = Yii::$app->db->createCommand($sql)->execute();
                     }
                     fclose($handle);
@@ -458,17 +461,19 @@ class LoadpriceController extends Controller
                         "'".$masBD['supliers']."',"."'".
                         $hashcode."'";
 
-                    if($duplicate == '') $duplicate = " hashcode='".$hashcode."' ";
-                    $duplicate .= " OR hashcode='".$hashcode."' ";
+                    $duplicate = $hashcode." ";
+                    //if($duplicate == '') $duplicate = " hashcode='".$hashcode."' ";
+                    //$duplicate .= " OR hashcode='".$hashcode."' ";
                     //----------------Пишем в БД-----------------------------
                     $kol_rows++;
                     $gl_values .= '('.$value_str.')';
                     if( ($kol_rows > 100) || ($all_rows < ($num_str+100)) ){
 
-                        $sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
-                        $res = Yii::$app->db->createCommand($sql)->execute();
+                        //$sql = "DELETE FROM price WHERE ".$duplicate.";"; //baf9e54a0c06a2f0686768c2a987c3de
+                        //$res = Yii::$app->db->createCommand($sql)->execute();
 
-                        $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values.";";
+                        $sql = "INSERT INTO price (".$column_str.") VALUES ".$gl_values."
+                                        ON DUPLICATE KEY UPDATE id=id;";
                         $res = Yii::$app->db->createCommand($sql)->execute();
                         $gl_values = ''; $kol_rows = 0; $duplicate = '';
                     } else {
